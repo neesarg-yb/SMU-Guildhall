@@ -10,6 +10,8 @@
 
 using namespace std;
 
+// Everything related to adding Nodes, removing it, creating new link, searching for a Node, etc. will be done by this class
+// (Not even started yet!)
 class Registry {
   public:
     Registry();

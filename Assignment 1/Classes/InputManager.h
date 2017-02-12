@@ -11,14 +11,20 @@ using namespace std;
 
 class InputManager {
 public:
-  bool fileIsOpened;
-
-  string readFileLineByLine();
-  pair<string, string> getBaseAndChildFrom(string line);
-
+  // Will just set variable filePath with given path
   InputManager(string path);
 
-private:
-  string filePath;
+  // Will read every line one-by-one & returns that line
+  // File will also be closed at EOF, by this function
+  string readFileLineByLine();
 
+  // Will return pair of Base & Childe from a string
+  pair<string, string> getBaseAndChildFrom(string line);
+
+private:
+  // Indicates the status of file
+  bool fileIsOpened;
+
+  // Stores path of file
+  string filePath;
 };
