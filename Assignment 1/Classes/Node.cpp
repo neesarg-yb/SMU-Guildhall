@@ -113,16 +113,6 @@ using namespace std;
         Node * cbNode = currentChild->baseNode[cb-1];
         cout<<"Currently in: "<<cbNode->name<<endl;
 
-
-        // If only one baseNode
-        // Just delete the currentChild
-        if(cb == 1) {
-          cout<<"  Found: "<<nameOfChild<<"; deleting its final reference & node itself!!"<<endl;
-          cbNode->childNode.pop_back();
-          delete currentChild;
-          break;
-        }
-
         // For its every childNode
         for(int cbc = cbNode->childNode.size(); cbc>= 1; cbc--) {
         Node *cbcNode = cbNode->childNode[cbc-1];
@@ -134,10 +124,15 @@ using namespace std;
 
           // Remove its reference
           cbNode->childNode.erase(cbNode->childNode.begin() + cbc-1);
+
+          // if only this cbNode was the last one left
+          // delete currentChild Node, also.
+          if(cb == 1) {
+            cout<<"========= All references of "<<nameOfChild<<" removed! Now, deleting node itself!!"<<endl;
+            delete cbcNode;
+            }
           break;
-        }
+          }
         }
       }
-        // Find reference pointer
-          // Pop it out from vector untill the last one
     }
