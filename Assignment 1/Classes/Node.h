@@ -47,5 +47,9 @@ class Node {
     // Major work is done by this function
     void makeGraphOfThis(Node * aNode, int currentLevel);
 
+
+    // First of all, removes all references of the currentChild
+    // After that, delete currentChild node itself
+    // Note: Situation of multiple references is created because of multiple baseNode(s) of a single childNode
     void deleteItSafely(Node * currentChild);
 };

@@ -108,7 +108,7 @@ using namespace std;
     void Node::deleteItSafely(Node * currentChild) {
       string nameOfChild = currentChild->name;
 
-      // For every base nodes
+      // For every base nodes of the currentChild
       for(int cb = currentChild->baseNode.size(); cb>=1; cb--) {
         Node * cbNode = currentChild->baseNode[cb-1];
         cout<<"Currently in: "<<cbNode->name<<endl;
@@ -125,7 +125,7 @@ using namespace std;
           // Remove its reference
           cbNode->childNode.erase(cbNode->childNode.begin() + cbc-1);
 
-          // if only this cbNode was the last one left
+          // if this cbNode was the only last one left,
           // delete currentChild Node, also.
           if(cb == 1) {
             cout<<"========= All references of "<<nameOfChild<<" removed! Now, deleting node itself!!"<<endl;
