@@ -1,3 +1,5 @@
+//  Created by Neesarg Banglawala on 12th Feb, 2017.
+//  Copyright (c) 2017 Neesarg Banglawala. All rights reserved.
 #include "Registry.h"
 #include <iostream>
 #include <string>

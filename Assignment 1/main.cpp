@@ -1,6 +1,8 @@
+//  Created by Neesarg Banglawala on 12th Feb, 2017.
+//  Copyright (c) 2017 Neesarg Banglawala. All rights reserved.
 /*
  *
- *  To compile: g++ main.cpp Classes/Node.cpp Classes/Registry.cpp Classes/InputManager.cpp 
+ *  To compile: g++ main.cpp Classes/Node.cpp Classes/Registry.cpp Classes/InputManager.cpp
  *
  */
 #include "Classes/Node.h"
