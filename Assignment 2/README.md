@@ -1,5 +1,5 @@
 # Assignment 2  
---------------  
+  
 Complete The Huffman Exercise — Download the Huffman Exercise PDF File.  
 (Link: http://www.smu.edu/-/media/Site/guildhallOLD/Documents/Huffman_Exercise.ashx?la=en)  
 
