@@ -1,3 +1,4 @@
+# Assignment 2
 Assignment 2:  
 --------------  
 Complete The Huffman Exercise — Download the Huffman Exercise PDF File.  
