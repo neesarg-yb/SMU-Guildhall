@@ -26,27 +26,19 @@ using namespace std;
       for(int i = childNode.size()-1; i>=0; i--) {
           // Recursion
           childNode[i]->deleteAllChildNodes();
-
-          // It is my responsibility to delete that variable; it'll call the Deconstructer
-          delete childNode[i];
-
-          // Now just remove that childNode[last] from vector
-          childNode.pop_back();
+          cout<<"Operating to delete: "<<childNode[i]->name<<endl;
+          // Delete that Node pointer and all its references without memory leak
+          deleteItSafely(childNode[i]);
       }
-      // It prints childNode count. For debugging
-      // cout<<"\n!!! Note: Child nodes of Node \""<<name<<"\" are delete, current count = "<<childNode.size()<<endl;
     }
 
 
 
     void Node::addChildNode(Node * aNode) {
-      // This function allows just 1 Parent for any childNode
-      if(aNode->baseNode.size() == 0) {
+      // This function allows just any number of Parents for any childNode
         childNode.push_back(aNode);
         aNode->addBaseNode(this);
-      } else {
-        cout<< "\n!!! ERROR: node \""<< aNode->name <<"\" already have one baseNode.. !!!\n";
-      }
+
     }
 
 
@@ -111,4 +103,41 @@ using namespace std;
         makeGraphOfThis(aNode->childNode[i], level);
         level--;
       }
+    }
+
+    void Node::deleteItSafely(Node * currentChild) {
+      string nameOfChild = currentChild->name;
+
+      // For every base nodes
+      for(int cb = currentChild->baseNode.size(); cb>=1; cb--) {
+        Node * cbNode = currentChild->baseNode[cb-1];
+        cout<<"Currently in: "<<cbNode->name<<endl;
+
+
+        // If only one baseNode
+        // Just delete the currentChild
+        if(cb == 1) {
+          cout<<"  Found: "<<nameOfChild<<"; deleting its final reference & node itself!!"<<endl;
+          cbNode->childNode.pop_back();
+          delete currentChild;
+          break;
+        }
+
+        // For its every childNode
+        for(int cbc = cbNode->childNode.size(); cbc>= 1; cbc--) {
+        Node *cbcNode = cbNode->childNode[cbc-1];
+        cout<<"  On: "<<cbcNode->name<<endl;
+
+        // Find reference of currentChild Node
+        if(cbcNode->name == nameOfChild) {
+          cout<<"     Found: "<< nameOfChild<<"; removing its reference!"<<endl;
+
+          // Remove its reference
+          cbNode->childNode.erase(cbNode->childNode.begin() + cbc-1);
+          break;
+        }
+        }
+      }
+        // Find reference pointer
+          // Pop it out from vector untill the last one
     }

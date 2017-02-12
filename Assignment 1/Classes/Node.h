@@ -18,6 +18,8 @@ class Node {
     vector<Node *> baseNode;
     // Child Node
     vector<Node *> childNode;
+    // Relies On
+    vector<string> requiredNodeNames;
 
     Node();  // constructer
     ~Node(); // Deconstructer
@@ -44,4 +46,6 @@ class Node {
     // Works on Recursion
     // Major work is done by this function
     void makeGraphOfThis(Node * aNode, int currentLevel);
+
+    void deleteItSafely(Node * currentChild);
 };

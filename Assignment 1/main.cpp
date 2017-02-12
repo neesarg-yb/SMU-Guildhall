@@ -38,6 +38,54 @@ int main(int argc, char const *argv[]) {
     line = fileInput.readFileLineByLine();
   }
 
+///////////////// TEST--CODE /////////////////
+  Node *ore = new Node;
+  ore->name = "ore";
+  ore->inventory = 2;
+
+  Node *bullets = new Node;
+  bullets->name = "bullets";
+  bullets->inventory = 1;
+  ore->addChildNode(bullets);
+
+  Node *turret = new Node;
+  turret->name = "turret";
+  turret->inventory = 1;
+
+  Node *handgun = new Node;
+  handgun->name = "handgun";
+  handgun->inventory = 1;
+  bullets->addChildNode(handgun);
+
+  Node *bombs = new Node;
+  bombs->name = "bombs";
+  bombs->inventory = 2;
+  ore->addChildNode(bombs);
+  bombs->addChildNode(turret);
+  bombs->addChildNode(handgun);
+
+  Node *tank = new Node;
+  tank->name = "tank";
+  tank->inventory = 1;
+  handgun->addChildNode(tank);
+  turret->addChildNode(tank);
+
+  bullets->description();
+  ore->description();
+
+  cout<<"\n--------- Current Structure --------- "<<endl;
+  ore->makeGraphOfThis();
+  cout<<"\n--------- ----------------- --------- "<<endl;
+
+  ore->deleteAllChildNodes();
+
+  cout<<"\n---------  Structure  Now  --------- "<<endl;
+  ore->makeGraphOfThis();
+  cout<<"\n--------- ----------------- --------- "<<endl;
+
+  delete ore;
+///////////////// TEST--CODE /////////////////
+
   return 0;
 }
 
@@ -62,40 +110,51 @@ Node* getNodeNamedFromVector(string name, vector<Node *> fromRegistry) {
  *  NODE CREATIONS, DELETION, GRAPH & ETC..
  *
 
-Node *ore = new Node;
-ore->name = "ore";
-ore->inventory = 2;
+ Node *ore = new Node;
+ ore->name = "ore";
+ ore->inventory = 2;
 
-Node *bullets = new Node;
-bullets->name = "bullets";
-bullets->inventory = 1;
-ore->addChildNode(bullets);
+ Node *bullets = new Node;
+ bullets->name = "bullets";
+ bullets->inventory = 1;
+ ore->addChildNode(bullets);
 
-Node *turret = new Node;
-turret->name = "turret";
-turret->inventory = 1;
+ Node *turret = new Node;
+ turret->name = "turret";
+ turret->inventory = 1;
 
-Node *handgun = new Node;
-handgun->name = "handgun";
-handgun->inventory = 1;
-bullets->addChildNode(handgun);
+ Node *handgun = new Node;
+ handgun->name = "handgun";
+ handgun->inventory = 1;
+ bullets->addChildNode(handgun);
 
-Node *bombs = new Node;
-bombs->name = "bombs";
-bombs->inventory = 2;
-ore->addChildNode(bombs);
-bombs->addChildNode(turret);
-bombs->addChildNode(handgun); // This should give an ERROR
+ Node *bombs = new Node;
+ bombs->name = "bombs";
+ bombs->inventory = 2;
+ ore->addChildNode(bombs);
+ bombs->addChildNode(turret);
+ bombs->addChildNode(handgun);
 
-bullets->description();
-ore->description();
+ Node *tank = new Node;
+ tank->name = "tank";
+ tank->inventory = 1;
+ handgun->addChildNode(tank);
+ turret->addChildNode(tank);
 
-cout<<"\n--------- Current Structure --------- "<<endl;
-ore->makeGraphOfThis();
-cout<<"\n--------- ----------------- --------- "<<endl;
+ bullets->description();
+ ore->description();
 
-ore->deleteAllChildNodes();
-delete ore;
+ cout<<"\n--------- Current Structure --------- "<<endl;
+ ore->makeGraphOfThis();
+ cout<<"\n--------- ----------------- --------- "<<endl;
+
+ ore->deleteAllChildNodes();
+
+ cout<<"\n---------  Structure  Now  --------- "<<endl;
+ ore->makeGraphOfThis();
+ cout<<"\n--------- ----------------- --------- "<<endl;
+
+ delete ore;
 
 *
 *
