@@ -1,5 +1,4 @@
-# Assignment 1
-Assignment 1:  
+# Assignment 1  
 -------------------  
 Create a Resource Manager for a Real Time Strategy (RTS) game. Your program manages a "directed graph" (a system of nodes and links between them going in one direction, much like web pages and their links). On startup, your program reads a file "resource.txt" (from the current directory) which describes resources and the resources they depend on. The file resource.txt could, for example, contain (exactly 4 lines):  
 
