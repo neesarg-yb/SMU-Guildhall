@@ -6,6 +6,7 @@ handgun bullets
 bullets ore  
 bombs ore  
 turret bullets  
+  
 The first line says that there is a link from a node called "handgun" to a node called 'bullet". This means for a handgun to be a useable, it relies on the resource bullets.  
 
 
