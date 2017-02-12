@@ -1,4 +1,4 @@
-#declare the variable
+# declare the variables
 CC=g++
 CFLAGS=-c -Wall
 OUTFILE=output
@@ -26,5 +26,6 @@ InputManager.o: Classes/InputManager.cpp
 Registry.o: Classes/Registry.cpp
 	$(CC) $(CFLAGS) Classes/Registry.cpp
 
+# will clean all created .o files and output
 clean:
 	rm -rf *o output
