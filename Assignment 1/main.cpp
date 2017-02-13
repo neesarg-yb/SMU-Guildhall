@@ -89,6 +89,12 @@ int main(int argc, char const *argv[]) {
   // For all independentBaseNodes, display its current structure
   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
+  if(ore->findNodeNamedUsingDFS("turret") == NULL) {
+    cout<<"!!NOT FOUND!!\n"<<endl;
+  } else {
+    cout<<"!!FOUND!!\n"<<endl;
+  }
+
   // Delete all independentBaseNodes' with their children
   theResourceManager.deleteAllIndependentBaseNodesSafely();
 

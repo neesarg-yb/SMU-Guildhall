@@ -31,7 +31,7 @@ string InputManager::readFileLineByLine() {
       // Close the file
       myfile.close();
       filePath = "";
-      cout<< "\nFILE CLOSED!\n";
+      cout<< "FILE CLOSED!\n"<<endl;
     }
 
     return line;

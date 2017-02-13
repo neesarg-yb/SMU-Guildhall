@@ -36,6 +36,11 @@ class Node {
     // Creates commandline graph
     void makeGraphOfThis();
 
+    // Finds node
+    // If present, will return its references
+    // If not found, returns NULL
+    Node* findNodeNamedUsingDFS(string searchingForNode);
+
   private:
     // Adds baseNode
     // It's a private function; so no count cross-check is applied
@@ -51,4 +56,12 @@ class Node {
     // After that, delete currentChild node itself
     // Note: Situation of multiple references is created because of multiple baseNode(s) of a single childNode
     void deleteItSafely(Node * currentChild);
+
+    // Helper function of findNodeNamedUsingDFS()
+    // Recursively does the job
+    Node* DFSUtil(Node *findFrom, string searchingForNode, vector<string> *visited);
+
+    // Search for a name of current Node in vector of strings
+    // This function is created to support DFSUtil method
+    bool searchThisNodeInVector(vector<string> *v);
 };
