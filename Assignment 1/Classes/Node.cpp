@@ -64,7 +64,7 @@ using namespace std;
       }
 
       // display Node name
-      cout<<"->"<<this->name;
+      cout<<"||"<<this->name;
       if(this->childNode.size() != 0) {
         cout<<":";
       }
@@ -89,7 +89,7 @@ using namespace std;
       }
 
       // display Node name
-      cout<<"->"<<aNode->name;
+      cout<<"<-"<<aNode->name;
 
       if(aNode->childNode.size() != 0) {
         cout<<":";
