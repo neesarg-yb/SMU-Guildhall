@@ -71,6 +71,18 @@ int main(int argc, char const *argv[]) {
   handgun->addChildNode(tank);
   turret->addChildNode(tank);
 
+  Node *tankSoldier1 = new Node;
+  tankSoldier1->name = "tankSoldier1";
+  tank->addChildNode(tankSoldier1);
+
+  Node *tankSoldier2 = new Node;
+  tankSoldier2->name = "tankSoldier2";
+  tank->addChildNode(tankSoldier2);
+
+  Node *tankSoldier3 = new Node;
+  tankSoldier3->name = "tankSoldier3";
+  tank->addChildNode(tankSoldier3);
+
   bullets->description();
   ore->description();
 
@@ -149,6 +161,18 @@ void displayStructureOfNodesInVector(vector<Node *> baseNodes) {
    tank->name = "tank";
    handgun->addChildNode(tank);
    turret->addChildNode(tank);
+
+   Node *tankSoldier1 = new Node;
+   tankSoldier1->name = "tankSoldier1";
+   tank->addChildNode(tankSoldier1);
+
+   Node *tankSoldier2 = new Node;
+   tankSoldier2->name = "tankSoldier2";
+   tank->addChildNode(tankSoldier2);
+
+   Node *tankSoldier3 = new Node;
+   tankSoldier3->name = "tankSoldier3";
+   tank->addChildNode(tankSoldier3);
 
    bullets->description();
    ore->description();

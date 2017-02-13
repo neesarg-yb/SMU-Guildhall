@@ -110,16 +110,16 @@ using namespace std;
       // For every base nodes of the currentChild
       for(int cb = currentChild->baseNode.size(); cb>=1; cb--) {
         Node * cbNode = currentChild->baseNode[cb-1];
-        cout<<"Currently in: "<<cbNode->name<<endl;
+        cout<<"  Currently in: "<<cbNode->name<<endl;
 
         // For its every childNode
         for(int cbc = cbNode->childNode.size(); cbc>= 1; cbc--) {
         Node *cbcNode = cbNode->childNode[cbc-1];
-        cout<<"  On: "<<cbcNode->name<<endl;
+        cout<<"    On: "<<cbcNode->name<<endl;
 
         // Find reference of currentChild Node
         if(cbcNode->name == nameOfChild) {
-          cout<<"     Found: "<< nameOfChild<<"; removing its reference!"<<endl;
+          cout<<"       Found: "<< nameOfChild<<"; removing its reference!"<<endl;
 
           // Remove its reference
           cbNode->childNode.erase(cbNode->childNode.begin() + cbc-1);
@@ -127,7 +127,7 @@ using namespace std;
           // if this cbNode was the only last one left,
           // delete currentChild Node, also.
           if(cb == 1) {
-            cout<<"========= All references of "<<nameOfChild<<" removed! Now, deleting node itself!!"<<endl;
+            cout<<"  ========= All references of "<<nameOfChild<<" removed! Now, deleting node itself!!"<<endl;
             delete cbcNode;
             }
           break;

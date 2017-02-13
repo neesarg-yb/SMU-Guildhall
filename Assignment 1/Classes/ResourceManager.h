@@ -16,12 +16,20 @@ class ResourceManager {
   public:
     ResourceManager();
 
-    // Don't forget to make it private
+    // Don't forget to make it private, later on
     vector<Node *> independentBaseNodes;
 
+    // Deletes all childern of nodes as well as it self
+    // Also removes references from independentBaseNodes variable
     void deleteAllIndependentBaseNodesSafely();
-    void addBaseAndChildNodesFromStringsToGame(string childName, string baseName);
+
+    // Implement graph seach algorithm
+    // It will be used before addition of any Node into the system
+    // To keep the whole structure without any redundancy
     Node* searchForNode(string nodeName);
+
+    void addBaseAndChildNodesFromStringsToGame(string childName, string baseName);
+
 
   private:
 };
