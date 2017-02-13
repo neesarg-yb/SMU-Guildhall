@@ -89,6 +89,7 @@ int main(int argc, char const *argv[]) {
   // For all independentBaseNodes, display its current structure
   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
+  // Test DFS Search Algorithm
   if(ore->findNodeNamedUsingDFS("turret") == NULL) {
     cout<<"!!NOT FOUND!!\n"<<endl;
   } else {
@@ -185,6 +186,13 @@ void displayStructureOfNodesInVector(vector<Node *> baseNodes) {
 
    // For all independentBaseNodes, display its current structure
    displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
+
+   // Test DFS Search Algorithm
+   if(ore->findNodeNamedUsingDFS("turret") == NULL) {
+     cout<<"!!NOT FOUND!!\n"<<endl;
+   } else {
+     cout<<"!!FOUND!!\n"<<endl;
+   }
 
    // Delete all independentBaseNodes' with their children
    theResourceManager.deleteAllIndependentBaseNodesSafely();
