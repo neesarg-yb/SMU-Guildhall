@@ -8,7 +8,7 @@
  *
  */
 #include "Classes/Node.h"
-#include "Classes/Registry.h"
+#include "Classes/ResourceManager.h"
 #include "Classes/InputManager.h"
 #include <iostream>
 #include <string>
@@ -20,9 +20,10 @@ using namespace std;
 
 
 Node* getNodeNamedFromVector(string, vector<Node *>);
+void displayStructureOfNodesInVector(vector<Node *> baseNodes);
 
 int main(int argc, char const *argv[]) {
-  Registry baseRegistry;
+  ResourceManager theResourceManager;
 
   // Stting up file InputManager
   InputManager fileInput = InputManager("input.txt");
@@ -31,59 +32,57 @@ int main(int argc, char const *argv[]) {
   string line = fileInput.readFileLineByLine();
 
   while (line != ""){
-    // get input pair from file and add it via baseRegistry
+    // get input pair from file and add it via theResourceManager
     pair<string, string> baseAndChild = fileInput.getBaseAndChildFrom(line);
-    baseRegistry.addBaseAndChildNodesFromStrings(baseAndChild.first, baseAndChild.second);
+    theResourceManager.addBaseAndChildNodesFromStringsToGame(baseAndChild.first, baseAndChild.second);
 
     line = fileInput.readFileLineByLine();
   }
 
 ///////////////// TEST--CODE /////////////////
+
   Node *ore = new Node;
   ore->name = "ore";
-  ore->inventory = 2;
+  theResourceManager.independentBaseNodes.push_back(ore);
+
+  Node *ore2 = new Node;
+  ore2->name = "ore2";
+  theResourceManager.independentBaseNodes.push_back(ore2);
 
   Node *bullets = new Node;
   bullets->name = "bullets";
-  bullets->inventory = 1;
   ore->addChildNode(bullets);
 
   Node *turret = new Node;
   turret->name = "turret";
-  turret->inventory = 1;
 
   Node *handgun = new Node;
   handgun->name = "handgun";
-  handgun->inventory = 1;
   bullets->addChildNode(handgun);
 
   Node *bombs = new Node;
   bombs->name = "bombs";
-  bombs->inventory = 2;
   ore->addChildNode(bombs);
   bombs->addChildNode(turret);
   bombs->addChildNode(handgun);
 
   Node *tank = new Node;
   tank->name = "tank";
-  tank->inventory = 1;
   handgun->addChildNode(tank);
   turret->addChildNode(tank);
 
   bullets->description();
   ore->description();
 
-  cout<<"\n--------- Current Structure --------- "<<endl;
-  ore->makeGraphOfThis();
-  cout<<"\n--------- ----------------- --------- "<<endl;
+  // For all independentBaseNodes, display its current structure
+  displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
-  ore->deleteAllChildNodes();
+  // Delete all independentBaseNodes' with their children
+  theResourceManager.deleteAllIndependentBaseNodesSafely();
 
-  cout<<"\n---------  Structure  Now  --------- "<<endl;
-  ore->makeGraphOfThis();
-  cout<<"\n--------- ----------------- --------- "<<endl;
+  // For all independentBaseNodes, display its current structure, now
+  displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
-  delete ore;
 ///////////////// TEST--CODE /////////////////
 
   return 0;
@@ -103,6 +102,15 @@ Node* getNodeNamedFromVector(string name, vector<Node *> fromRegistry) {
 }
 
 
+void displayStructureOfNodesInVector(vector<Node *> baseNodes) {
+  // For all independentBaseNodes in given vector
+  for(int indN = baseNodes.size(); indN >=1; indN--) {
+
+    cout<<"\n\n--------- Structure of \""<<baseNodes[indN-1]->name<<"\" --------- "<<endl;
+    baseNodes[indN-1]->makeGraphOfThis();
+    cout<<"\n--------- ----------------- --------- \n"<<endl;
+  }
+}
 
 
 /*
@@ -110,51 +118,51 @@ Node* getNodeNamedFromVector(string name, vector<Node *> fromRegistry) {
  *  NODE CREATIONS, DELETION, GRAPH & ETC..
  *
 
- Node *ore = new Node;
- ore->name = "ore";
- ore->inventory = 2;
+ ///////////////// TEST--CODE /////////////////
 
- Node *bullets = new Node;
- bullets->name = "bullets";
- bullets->inventory = 1;
- ore->addChildNode(bullets);
+   Node *ore = new Node;
+   ore->name = "ore";
+   theResourceManager.independentBaseNodes.push_back(ore);
 
- Node *turret = new Node;
- turret->name = "turret";
- turret->inventory = 1;
+   Node *ore2 = new Node;
+   ore2->name = "ore2";
+   theResourceManager.independentBaseNodes.push_back(ore2);
 
- Node *handgun = new Node;
- handgun->name = "handgun";
- handgun->inventory = 1;
- bullets->addChildNode(handgun);
+   Node *bullets = new Node;
+   bullets->name = "bullets";
+   ore->addChildNode(bullets);
 
- Node *bombs = new Node;
- bombs->name = "bombs";
- bombs->inventory = 2;
- ore->addChildNode(bombs);
- bombs->addChildNode(turret);
- bombs->addChildNode(handgun);
+   Node *turret = new Node;
+   turret->name = "turret";
 
- Node *tank = new Node;
- tank->name = "tank";
- tank->inventory = 1;
- handgun->addChildNode(tank);
- turret->addChildNode(tank);
+   Node *handgun = new Node;
+   handgun->name = "handgun";
+   bullets->addChildNode(handgun);
 
- bullets->description();
- ore->description();
+   Node *bombs = new Node;
+   bombs->name = "bombs";
+   ore->addChildNode(bombs);
+   bombs->addChildNode(turret);
+   bombs->addChildNode(handgun);
 
- cout<<"\n--------- Current Structure --------- "<<endl;
- ore->makeGraphOfThis();
- cout<<"\n--------- ----------------- --------- "<<endl;
+   Node *tank = new Node;
+   tank->name = "tank";
+   handgun->addChildNode(tank);
+   turret->addChildNode(tank);
 
- ore->deleteAllChildNodes();
+   bullets->description();
+   ore->description();
 
- cout<<"\n---------  Structure  Now  --------- "<<endl;
- ore->makeGraphOfThis();
- cout<<"\n--------- ----------------- --------- "<<endl;
+   // For all independentBaseNodes, display its current structure
+   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
- delete ore;
+   // Delete all independentBaseNodes' with their children
+   theResourceManager.deleteAllIndependentBaseNodesSafely();
+
+   // For all independentBaseNodes, display its current structure, now
+   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
+
+ ///////////////// TEST--CODE /////////////////
 
 *
 *

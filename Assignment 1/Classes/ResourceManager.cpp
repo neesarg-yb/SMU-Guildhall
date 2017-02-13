@@ -1,6 +1,6 @@
 //  Created by Neesarg Banglawala on 12th Feb, 2017.
 //  Copyright (c) 2017 Neesarg Banglawala. All rights reserved.
-#include "Registry.h"
+#include "ResourceManager.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,11 +8,23 @@
 
 using namespace std;
 
-Registry::Registry() {
+ResourceManager::ResourceManager() {
 
 }
 
-void Registry::addBaseAndChildNodesFromStrings(string baseName, string childName) {
+void ResourceManager::deleteAllIndependentBaseNodesSafely(){
+  // For every independentBaseNodes
+  for(int indN = independentBaseNodes.size(); indN >=1; indN--) {
+    // Firstly, delete its all children
+    independentBaseNodes[indN-1]->deleteAllChildNodes();
+
+    // Now, delete its self
+    delete independentBaseNodes[indN-1];
+    // Remove its reference, too
+    independentBaseNodes.pop_back();
+  }
+}
+void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, string childName) {
   cout<<"gotIt: "<<baseName<<", "<<childName<<endl;
         // CASE I:
         // Base is in, so child will not be there

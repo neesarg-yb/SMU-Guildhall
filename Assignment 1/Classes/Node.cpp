@@ -12,7 +12,6 @@ using namespace std;
     Node::Node() {
       cout << "constructed new Node: [" << this << "]\n";
       name = "";
-      inventory = 0;
     }
 
 // Deconstructer

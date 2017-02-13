@@ -12,12 +12,16 @@ using namespace std;
 
 // Everything related to adding Nodes, removing it, creating new link, searching for a Node, etc. will be done by this class
 // (Not even started yet!)
-class Registry {
+class ResourceManager {
   public:
-    Registry();
-    void addBaseAndChildNodesFromStrings(string childName, string baseName);
+    ResourceManager();
+
+    // Don't forget to make it private
+    vector<Node *> independentBaseNodes;
+
+    void deleteAllIndependentBaseNodesSafely();
+    void addBaseAndChildNodesFromStringsToGame(string childName, string baseName);
     Node* searchForNode(string nodeName);
 
   private:
-
 };

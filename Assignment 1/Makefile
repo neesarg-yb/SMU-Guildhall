@@ -11,8 +11,8 @@ all: output
 	$(info ----------------------------------------------------)
 	$(info )
 
-output: main.o Node.o InputManager.o Registry.o
-	$(CC) -o $(OUTFILE) main.o Node.o InputManager.o Registry.o
+output: main.o Node.o InputManager.o ResourceManager.o
+	$(CC) -o $(OUTFILE) main.o Node.o InputManager.o ResourceManager.o
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
@@ -23,8 +23,8 @@ Node.o: Classes/Node.cpp
 InputManager.o: Classes/InputManager.cpp
 	$(CC) $(CFLAGS) Classes/InputManager.cpp
 
-Registry.o: Classes/Registry.cpp
-	$(CC) $(CFLAGS) Classes/Registry.cpp
+ResourceManager.o: Classes/ResourceManager.cpp
+	$(CC) $(CFLAGS) Classes/ResourceManager.cpp
 
 # will clean all created .o files and output
 clean:

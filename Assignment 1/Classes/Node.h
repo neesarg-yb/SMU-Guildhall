@@ -12,7 +12,6 @@ using namespace std;
 class Node {
   public:
     string name;
-    int inventory;
 
     // Parent Node
     vector<Node *> baseNode;
