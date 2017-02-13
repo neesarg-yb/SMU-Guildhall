@@ -26,18 +26,27 @@ void ResourceManager::deleteAllIndependentBaseNodesSafely(){
 }
 void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, string childName) {
   cout<<"gotIt: "<<baseName<<", "<<childName<<endl;
-        // CASE I:
-        // Base is in, so child will not be there
-        // Append child behind it
+  // Search for baseNode in game's existing structure
+      // get baseNodeReference
+  // Search for childNode in game's existing structure
+      // get childNodeReference
 
-        // CASE II:
-        // Child is in, remove its reference
-        // Append Child behind newly created Base
-        // Add Base reference to Registry
-
-    // CASE III:
-    // Create new Base
-    // Append Child behind it
-    // Register it to Registry
+  // Switch on diffrent cases
+        // CASE I: Base and Child both are not present in the game | I.E. bothNodeReferences == NULL
+            /*
+             *        { Add it accordingly.. }
+             */
+        // CASE II: Base and Child both are in the game   | I.E. bothNodeReferences != NULL
+            /*
+             *        { Add it accordingly.. }
+             */
+        // CASE III: Base is in the game; but Child isn't | I.E. childNodeReference == NULL
+            /*
+             *        { Add it accordingly.. }
+             */
+        // CASE IV: Child is in the game; but Base isn't  | I.E. baseNodeReference == NULL
+            /*
+             *        { Add it accordingly.. }
+             */
 
 }

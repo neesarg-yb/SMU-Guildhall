@@ -10,8 +10,7 @@
 
 using namespace std;
 
-// Everything related to adding Nodes, removing it, creating new link, searching for a Node, etc. will be done by this class
-// (Not even started yet!)
+// Everything related to handling independentBaseNodes and its whole structure will be done by this class
 class ResourceManager {
   public:
     ResourceManager();
@@ -23,11 +22,13 @@ class ResourceManager {
     // Also removes references from independentBaseNodes variable
     void deleteAllIndependentBaseNodesSafely();
 
-    // Implement graph seach algorithm
+    // Use DFS graph seach algorithm of Node class, for every independentBaseNodes
     // It will be used before addition of any Node into the system
     // To keep the whole structure without any redundancy
     Node* searchForNode(string nodeName);
 
+    // It will add base <--- child in the system
+    // Will also ensure that only single copy of any Node is being included!
     void addBaseAndChildNodesFromStringsToGame(string childName, string baseName);
 
 
