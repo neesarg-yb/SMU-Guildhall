@@ -143,7 +143,11 @@ using namespace std;
         vector<string> *visitedVector = new vector<string>;
 
         // Call the recursive helper function to find that Node v
-        return DFSUtil(this, searchingForNode, visitedVector);
+        // Save its result in this variable
+        Node *operationResult = DFSUtil(this, searchingForNode, visitedVector);
+        delete visitedVector;
+
+        return operationResult;
     }
 
     Node* Node::DFSUtil(Node *findFrom, string searchingForNode, vector<string> *visited) {
