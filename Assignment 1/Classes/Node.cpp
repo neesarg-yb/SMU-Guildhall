@@ -51,6 +51,7 @@ static int totalNodesConstructed;
       cout<<endl<<"Object Name: \""<<name<<"\", Type: \"Node\","<<endl;
       cout<<"Base Nodes: "<<baseNode.size()<<endl;
       cout<<"Child Node: "<<childNode.size()<<endl;
+      cout<<"Usable: "<<usable<<endl;
     }
 
 
@@ -173,7 +174,7 @@ static int totalNodesConstructed;
     }
 
     Node* Node::findNodeNamedUsingDFS(string searchingForNode) {
-        cout<<"DFS: Finding node: "<<searchingForNode<<"; In baseNode named: "<<this->name<<"."<<endl;
+        // cout<<"DFS: Finding node: "<<searchingForNode<<"; In baseNode named: "<<this->name<<"."<<endl;
         // It will contain Nodes which are already visited
         vector<string> *visitedVector = new vector<string>;
 
@@ -211,11 +212,11 @@ static int totalNodesConstructed;
           // Node is already visited
           // Do nothing, NULL will be returned at the end
 
-          // Desplay visited vector
-          // cout<<"\nDFS: Current visited vector:"<<endl;
-          for(int j=0; j<visited->size(); j++) {
-            cout<<visited->at(j)<<endl;
-          }
+          // // Desplay visited vector
+          // // cout<<"\nDFS: Current visited vector:"<<endl;
+          // for(int j=0; j<visited->size(); j++) {
+          //   cout<<visited->at(j)<<endl;
+          // }
 
           // cout<<"DFS: "<<nextChild->name<<" is already visited"<<endl;
         } else {

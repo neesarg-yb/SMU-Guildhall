@@ -47,5 +47,4 @@ class ResourceManager {
         //            *  every reliesOnNodes are there in baseNodes vector
         //      -> Not Usable if,
         //            * every reliesOnNodes are not present in baseNodes vector
-    void addBaseAndChildNodesSafely(Node *baseNode, Node *childNode);
 };

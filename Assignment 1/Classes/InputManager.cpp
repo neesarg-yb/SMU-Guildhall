@@ -12,7 +12,7 @@ InputManager::InputManager(string path) {
   // Stting up filePath
   filePath = path;
 
-  cout<<"\nFile Manager initalized with path: \""<< filePath <<"\" "<<endl;
+  cout<<"File Manager initalized with path: \""<< filePath <<"\" "<<endl;
 }
 
 string InputManager::readFileLineByLine() {

@@ -24,21 +24,20 @@ void ResourceManager::deleteAllIndependentBaseNodesSafely(){
     independentBaseNodes.pop_back();
   }
 }
+
+
 void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, string childName) {
   if(baseName == "ERROR" || childName == "ERROR") {
     // Ignore these input
-    cout<<"\nResourceManager: Received an empty line! Ignoring it.."<<endl;
+
   } else if(childName == "NULL") {
     // Add this base to independentBaseNodes
     Node *baseNodeReference = searchForNode(baseName);
 
     // got baseName successfully
-    cout<<"gotIt: "<<baseName<<"."<<endl;
-
     // Check for duplications
     if(baseNodeReference != NULL) {
       // CASE I: Base is already there in the system
-      cout<<"ResourceManager: "<<baseName<<" Node is already present in the system; can't change it!"<<endl;
     } else {
       // CASE II: Base not found!
       baseNodeReference = new Node;
@@ -50,7 +49,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
   } else {
     // got baseName and childName, successfully
-    cout<<"gotIt: "<<baseName<<", "<<childName<<endl;
+    // cout<<"gotIt: "<<baseName<<", "<<childName<<endl;
 
     // Search for baseNode in game's existing structure
         // get baseNodeReference
@@ -61,7 +60,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
     // VI-Cases on diffrent cases
           if(baseNodeReference == NULL && childNodeReference == NULL) {
-            cout<<"Yup! b&c == NULL!"<<endl;
+            // cout<<"Yup! b&c == NULL!"<<endl;
             // CASE I: Base and Child both are not present in the game
             // create both new; and pass into addBaseAndChildNodesSafely()
             baseNodeReference = new Node;
@@ -86,7 +85,8 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
             childNodeReference->usable = true;
 
           } else if(baseNodeReference != NULL && childNodeReference != NULL) {
-            cout<<"Yup! b&c != NULL!"<<endl;
+            // cout<<"Yup! b&c != NULL!"<<endl;
+
             // CASE II: Base and Child both are in the game   | I.E. bothNodeReferences != NULL
             // If both are linked; Link can't be changed
             // If not linked => add a link
@@ -96,7 +96,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
             if(baseNodeReference->childNode.size() != 0) {
               for(int i=0; i<baseNodeReference->childNode.size(); i++) {
-                cout<<"i1 = "<<i<<endl;
+                // cout<<"i1 = "<<i<<endl;
                 // Search in childNodes of the baseNode
                 if(baseNodeReference->childNode.at(i) == childNodeReference) {
                   linkExists = true;
@@ -108,7 +108,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
             if(linkExists == false && baseNodeReference->baseNode.size() != 0) {
               // Search in baseNodes of the baseNode
               for(int i=0; i<baseNodeReference->baseNode.size(); i++) {
-                cout<<"i2 = "<<i<<endl;
+                // cout<<"i2 = "<<i<<endl;
                 if(baseNodeReference->baseNode.at(i) == childNodeReference) {
                   linkExists = true;
                   break;
@@ -118,7 +118,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
             // If not: add it
             if(linkExists == false) {
-                cout<<"\nYAY! Link not exist!!"<<endl;
+                // cout<<"\nYAY! Link not exist!!"<<endl;
                 // Run add operation
                 // Check if childNode is in independentBaseNodes
                 for(int i=0; i<independentBaseNodes.size(); i++) {
@@ -144,7 +144,8 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
             }
 
           } else if(baseNodeReference != NULL && childNodeReference == NULL) {
-            cout<<"Yup! b != NULL, c == NULL!"<<endl;
+            // cout<<"Yup! b != NULL, c == NULL!"<<endl;
+
             // CASE III: Base is in the game; but Child isn't | I.E. childNodeReference == NULL
             childNodeReference = new Node;
             childNodeReference->name = childName;
@@ -166,7 +167,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
             }
 
           } else if(baseNodeReference == NULL && childNodeReference != NULL) {
-            cout<<"Yup! b == NULL, c != NULL!"<<endl;
+            // cout<<"Yup! b == NULL, c != NULL!"<<endl;
             // CASE IV: Child is in the game; but Base isn't  | I.E. baseNodeReference == NULL
             baseNodeReference = new Node;
             baseNodeReference->name = baseName;
@@ -193,16 +194,11 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
             childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
 
           } else {
-            cout<<"ERROR: In if-cases of addBaseAndChildNodesFromStringsToGame() function!!"<<endl;
+            cout<<"ERROR: NO INPUT CASES MATCHED!!"<<endl;
           }
   }
 
 
-}
-
-
-void ResourceManager::addBaseAndChildNodesSafely(Node* baseNode, Node* childNode){
-    //
 }
 
 Node* ResourceManager::searchForNode(string nodeName) {
@@ -222,37 +218,3 @@ Node* ResourceManager::searchForNode(string nodeName) {
   // result will be NULL
   return result;
 }
-/*
-// Check if link Exist!
-bool linkExists = false;
-
-if(baseNodeReference->childNode.size() != 0) {
-  for(int i=0; i<baseNodeReference->childNode.size(); i++) {
-    cout<<"i1 = "<<i<<endl;
-    // Search in childNodes of the baseNode
-    if(baseNodeReference->childNode.at(i) == childNodeReference) {
-      linkExists = true;
-      break;
-  }
-}
-
-}
-if(linkExists == false && baseNodeReference->baseNode.size() != 0) {
-  // Search in baseNodes of the baseNode
-  for(int i=0; i<baseNodeReference->baseNode.size()-1; i++) {
-    cout<<"i2 = "<<i<<endl;
-    if(baseNodeReference->baseNode.at(i) == childNodeReference) {
-      linkExists = true;
-      break;
-    }
-  }
-}
-
-// If not: add it
-if(linkExists == false) {
-    cout<<"\nYAY! Link not exist!!"<<endl;
-} else {
-  // If exist; can't change it
-  cout<<"ERROR: can't change the link which is already there in system."<<endl;
-}
-*/
