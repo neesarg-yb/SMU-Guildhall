@@ -1,0 +1,20 @@
+ore
+bullets ore
+bombs ore
+handgun bullets
+handgun bombs
+turret bombs
+tank handgun
+tank turret
+ 
+    
+tankSoldier3
+tankSoldier1 tank
+tankSoldier2 tank
+tankSoldier3 tank
+ 
+ 
+handgunSMU bulletsSMU
+bulletsSMU oreSMU
+bombsSMU oreSMU
+turretSMU bulletsSMU

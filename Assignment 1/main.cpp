@@ -41,7 +41,7 @@ int main(int argc, char const *argv[]) {
 
   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
-  // getchar();
+  getchar();
 
   theResourceManager.deleteAllIndependentBaseNodesSafely();
   return 0;
