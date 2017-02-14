@@ -140,7 +140,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
             } else {
               // If exist; can't change it
-              cout<<"ERROR: can't change the link which is already there in system."<<endl;
+              cout<<"ERROR: can't change the link between "<<baseNodeReference->name<<" & "<<childNodeReference->name<<". It is already there in system."<<endl;
             }
 
           } else if(baseNodeReference != NULL && childNodeReference == NULL) {
