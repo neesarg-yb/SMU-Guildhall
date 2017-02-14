@@ -8,17 +8,21 @@
 
 using namespace std;
 
+static int totalNodesConstructed;
+
 // Initalize with default values
     Node::Node() {
-      cout << "constructed new Node: [" << this << "]\n";
+      totalNodesConstructed++;
+      cout << "constructed new Node: [" << this << "]; Updated count = "<<totalNodesConstructed<<"\n";
       name = "";
       usable = false;
     }
 
 // Deconstructer
     Node::~Node() {
+      totalNodesConstructed--;
       // Print message when it gets deleted
-      cout << "deleted Node at: [" << this << "]\n";
+      cout << "deleted Node at: [" << this << "]; Updated count = "<<totalNodesConstructed<<"\n";
     }
 
 
@@ -59,9 +63,11 @@ using namespace std;
       // to keep track of hierarchy levels
       int level = 0;
 
+      vector<string> *alreadyPlottedGraph = new vector<string>;
+
       // to display hierarchy
       for(int i = level; i > 0; i--) {
-        cout<<"   ";
+        cout<<"     ";
       }
 
       // display Node name
@@ -78,22 +84,26 @@ using namespace std;
       }
       cout<<endl;
 
+      alreadyPlottedGraph->push_back(this->name);
       // Recursion for all childNode
       for(int i=0; i< this->childNode.size(); i++) {
         level++;
-        makeGraphOfThis(this->childNode[i], level);
+        makeGraphOfThis(this->childNode[i], level, alreadyPlottedGraph);
         level--;
       }
+
+      delete alreadyPlottedGraph;
     }
 
 
-    void Node::makeGraphOfThis(Node * aNode, int currentLevel) {
+    void Node::makeGraphOfThis(Node * aNode, int currentLevel, vector<string> *alreadyPlotted) {
+
       // to keep track of hierarchy levels
       static int level = currentLevel;
 
       // to display hierarchy
       for(int i = level; i > 0; i--) {
-        cout<<"   ";
+        cout<<"     ";
       }
 
       // display Node name
@@ -105,17 +115,28 @@ using namespace std;
         cout<<" (not usable)";
       }
 
-      if(aNode->childNode.size() != 0) {
-        cout<<":";
-      }
-      cout<<endl;
 
-      // Recursion for all childNode
-      for(int i=0; i< aNode->childNode.size(); i++) {
-        // Handling hierarchy levels
-        level++;
-        makeGraphOfThis(aNode->childNode[i], level);
-        level--;
+      if(aNode->searchThisNodeInVector(alreadyPlotted) == false) {
+        alreadyPlotted->push_back(aNode->name);
+
+
+        if(aNode->childNode.size() != 0) {
+          cout<<":";
+        }
+        cout<<endl;
+
+        // Recursion for all childNode
+        for(int i=0; i< aNode->childNode.size(); i++) {
+          // Handling hierarchy levels
+          level++;
+          makeGraphOfThis(aNode->childNode[i], level, alreadyPlotted);
+          level--;
+        }
+
+
+
+      } else {
+        cout<<" ~link~"<<endl;
       }
     }
 

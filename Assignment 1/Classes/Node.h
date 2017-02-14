@@ -54,7 +54,7 @@ class Node {
     // Supporting private function of makeGraphOfThis()
     // Works on Recursion
     // Major work is done by this function
-    void makeGraphOfThis(Node * aNode, int currentLevel);
+    void makeGraphOfThis(Node * aNode, int currentLevel, vector<string> *alreadyPlotted);
 
 
     // First of all, removes all references of the currentChild
@@ -70,5 +70,7 @@ class Node {
     // This function is created to support DFSUtil method
     bool searchThisNodeInVector(vector<string> *v);
 
+    // Helps to find whether the node is usable or not
     bool searchNodeNamedIsPresentAsUsableInItsBaseNodes(string nodeName);
+
 };
