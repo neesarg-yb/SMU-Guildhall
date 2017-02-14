@@ -38,6 +38,11 @@ int main(int argc, char const *argv[]) {
     line = fileInput.readFileLineByLine();
   }
 
+  displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
+
+  getchar();
+
+  theResourceManager.deleteAllIndependentBaseNodesSafely();
   return 0;
 }
 

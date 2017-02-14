@@ -12,13 +12,14 @@ using namespace std;
 class Node {
   public:
     string name;
+    bool usable;
 
     // Parent Node
     vector<Node *> baseNode;
     // Child Node
     vector<Node *> childNode;
     // Relies On
-    vector<string> requiredNodeNames;
+    vector<string> reliesOnNodes;
 
     Node();  // constructer
     ~Node(); // Deconstructer
@@ -40,6 +41,10 @@ class Node {
     // If present, will return its references
     // If not found, returns NULL
     Node* findNodeNamedUsingDFS(string searchingForNode);
+
+    // Check whether Node is usable or not
+    // To be usable: all reliesOnNodes should be present in baseNode vector in usable state
+    bool isUsable();
 
   private:
     // Adds baseNode
@@ -64,4 +69,6 @@ class Node {
     // Search for a name of current Node in vector of strings
     // This function is created to support DFSUtil method
     bool searchThisNodeInVector(vector<string> *v);
+
+    bool searchNodeNamedIsPresentAsUsableInItsBaseNodes(string nodeName);
 };

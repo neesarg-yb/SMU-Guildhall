@@ -1,4 +1,14 @@
-handgun bullets
+ore
 bullets ore
 bombs ore
-turret bullets
+handgun bullets
+handgun bombs
+turret bombs
+tank handgun
+tank turret
+ 
+    
+tankSoldier3
+tankSoldier1 tank
+tankSoldier2 tank
+tankSoldier3 tank

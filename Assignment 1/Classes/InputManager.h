@@ -15,10 +15,12 @@ public:
   InputManager(string path);
 
   // Will read every line one-by-one & returns that line
-  // File will also be closed at EOF, by this function
+  // File will also be closed at first empty line or EOF
   string readFileLineByLine();
 
   // Will return pair of Base & Childe from a string
+  // If only one element in string line, It Will return pair(baseName, "NULL")
+  // If pattern not found, It will return pair("ERROR", "ERROR")
   pair<string, string> getBaseAndChildFrom(string line);
 
 private:

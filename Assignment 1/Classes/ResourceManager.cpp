@@ -25,28 +25,234 @@ void ResourceManager::deleteAllIndependentBaseNodesSafely(){
   }
 }
 void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, string childName) {
-  cout<<"gotIt: "<<baseName<<", "<<childName<<endl;
-  // Search for baseNode in game's existing structure
-      // get baseNodeReference
-  // Search for childNode in game's existing structure
-      // get childNodeReference
+  if(baseName == "ERROR" || childName == "ERROR") {
+    // Ignore these input
+    cout<<"\nResourceManager: Received an empty line! Ignoring it.."<<endl;
+  } else if(childName == "NULL") {
+    // Add this base to independentBaseNodes
+    Node *baseNodeReference = searchForNode(baseName);
 
-  // Switch on diffrent cases
-        // CASE I: Base and Child both are not present in the game | I.E. bothNodeReferences == NULL
-            /*
-             *        { Add it accordingly.. }
-             */
-        // CASE II: Base and Child both are in the game   | I.E. bothNodeReferences != NULL
-            /*
-             *        { Add it accordingly.. }
-             */
-        // CASE III: Base is in the game; but Child isn't | I.E. childNodeReference == NULL
-            /*
-             *        { Add it accordingly.. }
-             */
-        // CASE IV: Child is in the game; but Base isn't  | I.E. baseNodeReference == NULL
-            /*
-             *        { Add it accordingly.. }
-             */
+    // got baseName successfully
+    cout<<"gotIt: "<<baseName<<"."<<endl;
+
+    // Check for duplications
+    if(baseNodeReference != NULL) {
+      // CASE I: Base is already there in the system
+      cout<<"ResourceManager: "<<baseName<<" Node is already present in the system; can't change it!"<<endl;
+    } else {
+      // CASE II: Base not found!
+      baseNodeReference = new Node;
+      baseNodeReference->name = baseName;
+      baseNodeReference->usable = true;
+
+      independentBaseNodes.push_back(baseNodeReference);
+    }
+
+  } else {
+    // got baseName and childName, successfully
+    cout<<"gotIt: "<<baseName<<", "<<childName<<endl;
+
+    // Search for baseNode in game's existing structure
+        // get baseNodeReference
+        Node *baseNodeReference = searchForNode(baseName);
+    // Search for childNode in game's existing structure
+        // get childNodeReference
+        Node *childNodeReference = searchForNode(childName);
+
+    // VI-Cases on diffrent cases
+          if(baseNodeReference == NULL && childNodeReference == NULL) {
+            cout<<"Yup! b&c == NULL!"<<endl;
+            // CASE I: Base and Child both are not present in the game
+            // create both new; and pass into addBaseAndChildNodesSafely()
+            baseNodeReference = new Node;
+            baseNodeReference->name = baseName;
+
+            childNodeReference = new Node;
+            childNodeReference->name = childName;
+
+            // Add baseNode first
+            // Add reference of its new childNode in it
+            // Make it usable
+            independentBaseNodes.push_back(baseNodeReference);
+            baseNodeReference->childNode.push_back(childNodeReference);
+            baseNodeReference->usable = true;
+
+            // Setup childNode for the system
+            // Add reference of its baseNode in it
+            // Add baseNode name to its reliesOnNodes vector
+            // Make it usable
+            childNodeReference->baseNode.push_back(baseNodeReference);
+            childNodeReference->reliesOnNodes.push_back(baseName);
+            childNodeReference->usable = true;
+
+          } else if(baseNodeReference != NULL && childNodeReference != NULL) {
+            cout<<"Yup! b&c != NULL!"<<endl;
+            // CASE II: Base and Child both are in the game   | I.E. bothNodeReferences != NULL
+            // If both are linked; Link can't be changed
+            // If not linked => add a link
+
+            // Check if link Exist!
+            bool linkExists = false;
+
+            if(baseNodeReference->childNode.size() != 0) {
+              for(int i=0; i<baseNodeReference->childNode.size(); i++) {
+                cout<<"i1 = "<<i<<endl;
+                // Search in childNodes of the baseNode
+                if(baseNodeReference->childNode.at(i) == childNodeReference) {
+                  linkExists = true;
+                  break;
+              }
+            }
+
+            }
+            if(linkExists == false && baseNodeReference->baseNode.size() != 0) {
+              // Search in baseNodes of the baseNode
+              for(int i=0; i<baseNodeReference->baseNode.size(); i++) {
+                cout<<"i2 = "<<i<<endl;
+                if(baseNodeReference->baseNode.at(i) == childNodeReference) {
+                  linkExists = true;
+                  break;
+                }
+              }
+            }
+
+            // If not: add it
+            if(linkExists == false) {
+                cout<<"\nYAY! Link not exist!!"<<endl;
+                // Run add operation
+                // Check if childNode is in independentBaseNodes
+                for(int i=0; i<independentBaseNodes.size(); i++) {
+                  if(independentBaseNodes.at(i) == childNodeReference) {
+                    // if Yes:
+                    // Remove the childNode's reference from there
+                    independentBaseNodes.erase(independentBaseNodes.begin() + i);
+                    break;
+                  }
+                }
+
+                //     Now add reference of childNode in baseNode
+                //     Add reference of baseNode in childNode
+                //     Add baseNode name in reliesOnNodes vector of childNode
+                //     Don't change childNode's usability; it won't affect by this operation
+                baseNodeReference->childNode.push_back(childNodeReference);
+                childNodeReference->baseNode.push_back(baseNodeReference);
+                childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
+
+            } else {
+              // If exist; can't change it
+              cout<<"ERROR: can't change the link which is already there in system."<<endl;
+            }
+
+          } else if(baseNodeReference != NULL && childNodeReference == NULL) {
+            cout<<"Yup! b != NULL, c == NULL!"<<endl;
+            // CASE III: Base is in the game; but Child isn't | I.E. childNodeReference == NULL
+            childNodeReference = new Node;
+            childNodeReference->name = childName;
+
+            // Setup childNode for the system
+            // Add its link to the existing baseNode
+            // Add baseNode's link in itself(childNode)
+            // Add baseNode's name in reliesOnNodes of itself
+            // Check if all reliesOnNodes are in baseNode vector & in usable state
+                    // If yes-> mark childNode as usable
+                    // If no->  mark it as not usable
+            baseNodeReference->childNode.push_back(childNodeReference);
+            childNodeReference->baseNode.push_back(baseNodeReference);
+            childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
+            if(childNodeReference->isUsable() == true) {
+              childNodeReference->usable = true;
+            } else {
+              childNodeReference->usable = false;
+            }
+
+          } else if(baseNodeReference == NULL && childNodeReference != NULL) {
+            cout<<"Yup! b == NULL, c != NULL!"<<endl;
+            // CASE IV: Child is in the game; but Base isn't  | I.E. baseNodeReference == NULL
+            baseNodeReference = new Node;
+            baseNodeReference->name = baseName;
+            baseNodeReference->usable = true;
+
+            // Check if childNode is in independentBaseNodes
+            for(int i=0; i<independentBaseNodes.size(); i++) {
+              if(independentBaseNodes.at(i) == childNodeReference) {
+                // if Yes:
+                // Remove the childNode's reference from there
+                independentBaseNodes.erase(independentBaseNodes.begin() + i);
+                break;
+              }
+            }
+
+            //     Add new baseNode in independentBaseNodes
+            //     Now add reference of childNode in baseNode
+            //     Add reference of baseNode in childNode
+            //     Add baseNode name in reliesOnNodes vector of childNode
+            //     Don't change childNode's usability; it won't affect by this operation
+            independentBaseNodes.push_back(baseNodeReference);
+            baseNodeReference->childNode.push_back(childNodeReference);
+            childNodeReference->baseNode.push_back(baseNodeReference);
+            childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
+
+          } else {
+            cout<<"ERROR: In if-cases of addBaseAndChildNodesFromStringsToGame() function!!"<<endl;
+          }
+  }
+
 
 }
+
+
+void ResourceManager::addBaseAndChildNodesSafely(Node* baseNode, Node* childNode){
+    //
+}
+
+Node* ResourceManager::searchForNode(string nodeName) {
+  Node* result = NULL;
+  // For every independentBaseNodes
+  // Run DFS search to find node
+  for(int i=0; i<independentBaseNodes.size(); i++) {
+    result = independentBaseNodes[i]->findNodeNamedUsingDFS(nodeName);
+    if(result != NULL) {
+      // Node found; return it!
+      return result;
+    } else {
+      // keep going
+    }
+  }
+
+  // result will be NULL
+  return result;
+}
+/*
+// Check if link Exist!
+bool linkExists = false;
+
+if(baseNodeReference->childNode.size() != 0) {
+  for(int i=0; i<baseNodeReference->childNode.size(); i++) {
+    cout<<"i1 = "<<i<<endl;
+    // Search in childNodes of the baseNode
+    if(baseNodeReference->childNode.at(i) == childNodeReference) {
+      linkExists = true;
+      break;
+  }
+}
+
+}
+if(linkExists == false && baseNodeReference->baseNode.size() != 0) {
+  // Search in baseNodes of the baseNode
+  for(int i=0; i<baseNodeReference->baseNode.size()-1; i++) {
+    cout<<"i2 = "<<i<<endl;
+    if(baseNodeReference->baseNode.at(i) == childNodeReference) {
+      linkExists = true;
+      break;
+    }
+  }
+}
+
+// If not: add it
+if(linkExists == false) {
+    cout<<"\nYAY! Link not exist!!"<<endl;
+} else {
+  // If exist; can't change it
+  cout<<"ERROR: can't change the link which is already there in system."<<endl;
+}
+*/
