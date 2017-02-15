@@ -48,6 +48,7 @@ int main(int argc, char const *argv[]) {
   }
 
   // Display structure 1st time
+  clearConsole();
   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
   /////////////////////////
@@ -58,13 +59,15 @@ int main(int argc, char const *argv[]) {
   while (getchar() != '\n'); // Ignores every other characters untill '\n'
 
   do {
-    cout<<"\nCommands,"<<endl;
-    cout<<"q: quit"<<endl;
-    cout<<"d: delete a node"<<endl;
-    cout<<"a: add a node or link"<<endl;
-    cout<<"g: plot graph of current structure"<<endl;
-    cout<<"i: informations about a node"<<endl;
-    cout<<"s: save current graph to resource.txt file"<<endl;
+    cout<<"\n\n-------------------"<<endl;
+    cout<<"      Commands     "<<endl;
+    cout<<"-------------------"<<endl;
+    cout<<"-> q: quit"<<endl;
+    cout<<"-> d: delete a node"<<endl;
+    cout<<"-> a: add a node or link"<<endl;
+    cout<<"-> g: plot graph of current structure"<<endl;
+    cout<<"-> i: informations about a node"<<endl;
+    cout<<"-> s: save current graph to resource.txt file"<<endl;
 
     // Take user's input
     cout<<"Input = ";
@@ -82,16 +85,21 @@ int main(int argc, char const *argv[]) {
       case 'q':
       // quit selected
         clearConsole();
-        cout<<"\nQuit selected!\nDeleting all nodes..\nGood Bye!\n"<<endl;
+        cout<<"\n\n-------------------"<<endl;
+        cout<<"       Quit        "<<endl;
+        cout<<"-------------------"<<endl;
+        cout<<"Deleting all nodes..\nGood Bye!\n"<<endl;
         break;
 
       case 'd': {
       // delete node selected
         clearConsole();
-        cout<<"\nRedirect to delete function.."<<endl;
+        cout<<"\n\n-------------------"<<endl;
+        cout<<"       Delete     "<<endl;
+        cout<<"-------------------"<<endl;
 
         string userInput;
-        cout<<"Delete node named : ";
+        cout<<"Node name : ";
         getline(cin, userInput);
         theResourceManager.deleteNodeNamed(userInput);
 
@@ -101,14 +109,16 @@ int main(int argc, char const *argv[]) {
       case 'a': {
       // add node or link selected
         clearConsole();
-        cout<<"\nRedirected to add function.."<<endl;
-        cout<<"To add a single node, write : \"node-name\""<<endl;
-        cout<<"To add multiple nodes, write: \"childName baseName\""<<endl;
-        cout<<"To add new link, write      :  \"existingChildName existingBaseName\""<<endl;
-        cout<<"            OR              |--> one of these two nodes can also be totally new."<<endl;
+        cout<<"\n\n-------------------"<<endl;
+        cout<<"  Add Node & Link "<<endl;
+        cout<<"-------------------"<<endl;
+        cout<<"-> To add a single node, write : \"node-name\""<<endl;
+        cout<<"-> To add multiple nodes, write: \"childName baseName\""<<endl;
+        cout<<"-> To add new link, write      : \"existingChildName existingBaseName\""<<endl;
+        cout<<"              OR               : one of these two nodes can also be totally new."<<endl;
         cout<<"(Note: Name of a node should not contain any whitespaces!)"<<endl;
         cout<<endl;
-        cout<<"Exit: When you're finished, just press another enter!\n"<<endl;
+        cout<<"-> Exit: When you're finished, just press another enter!\n"<<endl;
 
         string userInput;
         do{
@@ -128,14 +138,19 @@ int main(int argc, char const *argv[]) {
       case 'g':
       // plot graph selected
         clearConsole();
-        cout<<"\nPlotting graph of current structure.."<<endl;
+        cout<<"\n\n-------------------"<<endl;
+        cout<<"       Graph        "<<endl;
+        cout<<"-------------------"<<endl;
+        cout<<"Plotting current structure.."<<endl;
         displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
         break;
 
       case 'i': {
       // information selected
         clearConsole();
-        cout<<"\nRedirected to informations function.."<<endl;
+          cout<<"\n\n-------------------"<<endl;
+          cout<<"    Information   "<<endl;
+          cout<<"-------------------"<<endl;
 
         string nodeN;
         Node * gotNode;
@@ -157,7 +172,10 @@ int main(int argc, char const *argv[]) {
 
       case 's':
         clearConsole();
-        cout<<"\nSaving in file.."<<endl;
+          cout<<"\n\n-------------------"<<endl;
+          cout<<"       Save       "<<endl;
+          cout<<"-------------------"<<endl;
+        cout<<"Saving in file.."<<endl;
         theResourceManager.saveCurrentStructureInResourcesFile();
         cout<<"\nIt should be saved by now. :)"<<endl;
         break;
@@ -183,6 +201,17 @@ int main(int argc, char const *argv[]) {
 
 
 void displayStructureOfNodesInVector(vector<Node *> baseNodes) {
+  // Display independentBaseNodes
+  cout<<"\n\n###################################.."<<endl;
+  cout<<"#"<<endl;
+  cout<<"#  Nodes without any baseNode = { ";
+  for(int i=0; i<baseNodes.size(); i++) {
+    cout<<"\""<<baseNodes.at(i)->name <<"\" ";
+  }
+  cout<<" }"<<endl;
+  cout<<"#"<<endl;
+  cout<<"###################################.."<<endl;
+
   // For all independentBaseNodes in given vector
   for(int indN = baseNodes.size(); indN >=1; indN--) {
 

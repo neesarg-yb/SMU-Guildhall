@@ -20,7 +20,6 @@ j
 g e
 h e
 i e
- 
 tankSoldier1 tank
 tankSoldier2 tank
 tankSoldier3 tank
@@ -31,3 +30,7 @@ handgun bullets
 handgun bombs
 bombs ore
 bullets ore
+handgunSMU bulletsSMU
+bulletsSMU oreSMU
+bombsSMU oreSMU
+turretSMU bulletsSMU
