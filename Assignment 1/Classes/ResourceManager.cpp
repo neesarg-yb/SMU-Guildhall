@@ -245,6 +245,21 @@ void ResourceManager::deleteNodeNamed(string nodeName) {
   Node *gotNode = searchForNode(nodeName);
 
   if(gotNode != NULL) {
+    // If gotNode is from independentBaseNodes
+        // First delete its entry from independentBaseNodes
+        // Then hand it over to deleteThisNode()
+    if(gotNode->baseNode.size() == 0) {
+      // If no baseNode, then its in independentBaseNodes
+      for(int i=0; i<independentBaseNodes.size(); i++) {
+        if(independentBaseNodes.at(i)->name == gotNode->name) {
+          // Found its entry; remove it
+          independentBaseNodes.erase(independentBaseNodes.begin() + i);
+          cout<<"Entry of: "<<gotNode->name<<" erased from independentBaseNodes."<<endl;
+          break;
+        }
+      }
+    }
+
     cout<<"ResourceManager: node found, passing it to deleteThisNode()!"<<endl;
     vector<Node *> *leftChildNode = gotNode->deleteThisNode();
     // Add them to independentBaseNodes
