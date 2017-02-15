@@ -36,6 +36,9 @@ class ResourceManager {
     //  -> delete links of that node from its baseNodes
     //  -> make all childNodes inactive
     void deleteNodeNamed(string nodeName);
+
+
+    void saveCurrentStructureInResourcesFile();
   private:
 
     // addBaseAndChildNodesFromStringsToGame() function will pass on this on

@@ -229,3 +229,12 @@ Node* ResourceManager::searchForNode(string nodeName) {
   // result will be NULL
   return result;
 }
+
+
+void ResourceManager::saveCurrentStructureInResourcesFile() {
+  ofstream myfile;
+  myfile.open ("example.txt");
+  myfile << "Writing this to a file.\n";
+  myfile.close();
+
+}

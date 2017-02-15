@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
   ResourceManager theResourceManager;
 
   // Stting up file InputManager
-  InputManager fileInput = InputManager("input.txt");
+  InputManager fileInput = InputManager("resource.txt");
 
   // Read txt file till end
   string line = fileInput.readFileLineByLine();
@@ -55,7 +55,7 @@ int main(int argc, char const *argv[]) {
   // Input Loop - starts //
   /////////////////////////
   char input;
-  cout<<"Press any enter to move ahead.. "<<endl;
+  cout<<"Press enter to move ahead.. "<<endl;
   while (getchar() != '\n'); // Ignores every other characters untill '\n'
 
   do {
@@ -65,6 +65,7 @@ int main(int argc, char const *argv[]) {
     cout<<"a: add a node or link"<<endl;
     cout<<"g: plot graph of current structure"<<endl;
     cout<<"i: informations about a node"<<endl;
+    cout<<"s: save current graph in resource.txt file"<<endl;
 
     // Take user's input
     cout<<"Input = ";
@@ -144,6 +145,13 @@ int main(int argc, char const *argv[]) {
 
         break;
       }
+
+      case 's':
+        clearConsole();
+        cout<<"\nSaving in file.."<<endl;
+        theResourceManager.saveCurrentStructureInResourcesFile();
+        cout<<"\nFile should be ready by now."<<endl;
+        break;
 
       default:
       // no matching commands

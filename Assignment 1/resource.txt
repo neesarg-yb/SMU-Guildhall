@@ -21,15 +21,13 @@ g e
 h e
 i e
  
-ore
-bullets ore
-bombs ore
-handgun bullets
-handgun bombs
-turret bombs
-tank handgun
-tank turret
-tankSoldier3
 tankSoldier1 tank
 tankSoldier2 tank
 tankSoldier3 tank
+tank turret
+tank handgun
+turret bombs
+handgun bullets
+handgun bombs
+bombs ore
+bullets ore
