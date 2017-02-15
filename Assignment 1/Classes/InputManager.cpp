@@ -70,7 +70,8 @@ pair<string, string> InputManager::getBaseAndChildFrom(string line) {
   } else {
     // Mostly it won't visit it, ever!
     // Line is empty
-    cout<<"!!! ERROR: getBaseAndChildFrom-> line == \"\".. !!!\n";
+
+    cout<<"InputManager: getBaseAndChildFrom-> line == \"\"!\n";
   }
 
   return baseChildPair;

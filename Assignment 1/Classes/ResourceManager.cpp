@@ -38,6 +38,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
     // Check for duplications
     if(baseNodeReference != NULL) {
       // CASE I: Base is already there in the system
+      cout<<"ResourceManager: "<<baseName<<" is already in the system!"<<endl;
     } else {
       // CASE II: Base not found!
       baseNodeReference = new Node;

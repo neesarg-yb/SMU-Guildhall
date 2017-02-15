@@ -48,7 +48,6 @@ int main(int argc, char const *argv[]) {
   }
 
   // Display structure 1st time
-  clearConsole();
   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
   /////////////////////////
@@ -65,15 +64,15 @@ int main(int argc, char const *argv[]) {
     cout<<"a: add a node or link"<<endl;
     cout<<"g: plot graph of current structure"<<endl;
     cout<<"i: informations about a node"<<endl;
-    cout<<"s: save current graph in resource.txt file"<<endl;
+    cout<<"s: save current graph to resource.txt file"<<endl;
 
     // Take user's input
     cout<<"Input = ";
     input = getchar();
 
     if(input == '\n') {
-      cout<<"\nShould not hit enter here!"<<endl;
-      cout<<"Hit it again to goto commands screen again.."<<endl;
+      cout<<"\nYou should not hit \"just enter\" here!"<<endl;
+      cout<<"Hit it again to goto Commands Menu.."<<endl;
     }
     // Ignores every other characters utill it finds '\n'
     while(getchar() != '\n');
@@ -100,19 +99,23 @@ int main(int argc, char const *argv[]) {
         cout<<"To add a single node, write : \"node-name\""<<endl;
         cout<<"To add multiple nodes, write: \"childName baseName\""<<endl;
         cout<<"To add new link, write      :  \"existingChildName existingBaseName\""<<endl;
+        cout<<"            OR              |--> one of these two nodes can also be totally new."<<endl;
         cout<<"(Note: Name of a node should not contain any whitespaces!)"<<endl;
+        cout<<endl;
+        cout<<"Exit: When you're finished, just press another enter!\n"<<endl;
 
         string userInput;
-        cout<<"Input = ";
-        getline(cin, userInput);
-        // cin.sync(); // Sync cin, to ignore other inputs
-        // while (getchar() != '\n'); // Ignores every other characters untill '\n'
+        do{
+          cout<<"Add : ";
+          getline(cin, userInput);
+          // cin.sync(); // Sync cin, to ignore other inputs
+          // while (getchar() != '\n'); // Ignores every other characters untill '\n'
 
-        cout<<endl<<"User i/p = "<<userInput<<endl;
-        // get pair from input string
-        pair<string, string> baseAndChildFromUser = fileInput.getBaseAndChildFrom(userInput);
-        // add that pair via theResourceManager
-        theResourceManager.addBaseAndChildNodesFromStringsToGame(baseAndChildFromUser.first, baseAndChildFromUser.second);
+          // get pair from input string
+          pair<string, string> baseAndChildFromUser = fileInput.getBaseAndChildFrom(userInput);
+          // add that pair via theResourceManager
+          theResourceManager.addBaseAndChildNodesFromStringsToGame(baseAndChildFromUser.first, baseAndChildFromUser.second);
+        } while(userInput != "");
         break;
       }
 
@@ -126,7 +129,7 @@ int main(int argc, char const *argv[]) {
       case 'i': {
       // information selected
         clearConsole();
-        cout<<"\nInformations about a node selected.."<<endl;
+        cout<<"\nRedirected to informations function.."<<endl;
 
         string nodeN;
         Node * gotNode;
@@ -150,7 +153,7 @@ int main(int argc, char const *argv[]) {
         clearConsole();
         cout<<"\nSaving in file.."<<endl;
         theResourceManager.saveCurrentStructureInResourcesFile();
-        cout<<"\nFile should be ready by now."<<endl;
+        cout<<"\nIt should be saved by now. :)"<<endl;
         break;
 
       default:
