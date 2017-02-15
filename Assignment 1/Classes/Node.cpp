@@ -282,7 +282,7 @@ static int totalNodesConstructed;
       for(int i=0; i<totalReliesOnNodes; i++) {
         // Search for a node name in vector of Node*
           if( searchNodeNamedIsPresentAsUsableInItsBaseNodes(this->reliesOnNodes.at(i)) == false) {
-              cout<<"\nWarning: baseNode "<<this->reliesOnNodes.at(i)<<", not present. For "<<name<<endl;
+              cout<<"Node: "<<name<<" will not be usable, because of it baseNode: "<<this->reliesOnNodes.at(i)<<endl;
               allReliesOnNodesPresentAsUsable = false;
               break;
           }
@@ -314,4 +314,86 @@ static int totalNodesConstructed;
       }
 
       return result;
+    }
+
+    vector<Node *> * Node::deleteThisNode() {
+      // For all of its baseNode
+          // Remove its entry
+
+      for(int i=0; i<baseNode.size(); i++) {
+        // In baseNode.at(i)
+        Node *bN = baseNode.at(i);
+
+        // Find its entry in its childNode(s)
+        for(int j=0; j<bN->childNode.size(); j++) {
+          // current childNode
+          Node *bcN = bN->childNode.at(j);
+
+          if(bcN->name == this->name) {
+            cout<<"Found its entry as childNode"<<endl;
+            // Remove its reference
+            bN->childNode.erase(bN->childNode.begin() + j);
+            break;
+          }
+        }
+      }
+
+
+      // For all its childNode(s)
+          // Remove reference of itself from baseNode vector
+          // Mark childNode as not-usable, Recursively!
+          // If childNode does not have any other parentNode
+              // Attach that childNode to independentBaseNodes vector
+      // delete thisNode
+      vector<Node *> *leftChildren = new vector<Node *>;
+
+      // For all its childNode(s)
+      for(int i=0; i<childNode.size(); i++) {
+        // current childNode
+        Node* cNode = childNode.at(i);
+        cout<<"deleteThisNode(): In childNode "<<cNode->name<<endl;
+
+        // Find baseNode's entry from currentChildNode
+        // N Remove it
+        for(int e=0; e < cNode->baseNode.size(); e++) {
+          // Current baseNode entry
+          Node* cbNode = cNode->baseNode.at(e);
+
+          // Found entry
+          if(cbNode->name == this->name) {
+            cout<<"deleteThisNode(): Found entry of baseNode, deleting it.."<<endl;
+            // Remove its reference
+            cNode->baseNode.erase(cNode->baseNode.begin() + e);
+            break;
+          }
+        }
+
+        // Mark childNode not-usable, Recursively!!
+        cNode->markNotUsable();
+
+        // Check if childNode not have any parentNode
+        if(cNode->baseNode.size() == 0) {
+          // Attach it to independentBaseNodes vector
+          leftChildren->push_back(cNode);
+        }
+      }
+
+      // Done with its childNode(s)
+      // delete thisNode
+      delete this;
+
+      return leftChildren;
+    }
+
+    void Node::markNotUsable() {
+      // mark thisNode not-usable
+          // For all its childNode(s)
+              // call markNotUsable()
+
+      cout<<"markNotUsable: for node = "<<this->name<<endl;
+
+      this->usable = false;
+      for(int i=0; i<childNode.size(); i++) {
+        childNode.at(i)->markNotUsable();
+      }
     }

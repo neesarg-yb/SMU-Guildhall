@@ -146,8 +146,8 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
                 if(childNodeReference->isUsable() == true) {
                   childNodeReference->usable = true;
                 } else {
-                  childNodeReference->usable = false;
-                  childNodeReference->description();
+                  childNodeReference->markNotUsable();
+                  // childNodeReference->description();
                 }
 
             } else {
@@ -238,4 +238,21 @@ void ResourceManager::saveCurrentStructureInResourcesFile() {
   myfile << "Writing this to a file.\n";
   myfile.close();
 
+}
+
+void ResourceManager::deleteNodeNamed(string nodeName) {
+  // get link to thatNode
+  Node *gotNode = searchForNode(nodeName);
+
+  if(gotNode != NULL) {
+    cout<<"ResourceManager: node found, passing it to deleteThisNode()!"<<endl;
+    vector<Node *> *leftChildNode = gotNode->deleteThisNode();
+    // Add them to independentBaseNodes
+    for(int i=0; i<leftChildNode->size(); i++) {
+      independentBaseNodes.push_back(leftChildNode->at(i));
+    }
+    delete leftChildNode;
+  } else {
+    cout<<"ResourceManager: to delete, node not found!"<<endl;
+  }
 }

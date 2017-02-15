@@ -89,6 +89,12 @@ int main(int argc, char const *argv[]) {
       // delete node selected
         clearConsole();
         cout<<"\nRedirect to delete function.."<<endl;
+
+        string userInput;
+        cout<<"Delete node named : ";
+        getline(cin, userInput);
+        theResourceManager.deleteNodeNamed(userInput);
+
         break;
       }
 

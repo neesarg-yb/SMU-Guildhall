@@ -46,6 +46,16 @@ class Node {
     // To be usable: all reliesOnNodes should be present in baseNode vector in usable state
     bool isUsable();
 
+    // It deletes current node
+    // Also marks its childNode(s) as not-usable
+    // If childNode does not have anyother baseNode,
+    // returns vector<Node *> of childNode(s) who does not have any Parents
+    vector<Node *> * deleteThisNode();
+
+    // Marks a node and all its childNode(s) not-usable
+    // Recursively!
+    void markNotUsable();
+
   private:
     // Adds baseNode
     // It's a private function; so no count cross-check is applied

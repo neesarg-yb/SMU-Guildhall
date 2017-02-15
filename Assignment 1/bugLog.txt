@@ -1,0 +1,593 @@
+172-10-20-68:Assignment 1 neesarg$ make
+g++ -c -Wall Classes/Node.cpp
+g++ -o output main.o Node.o InputManager.o ResourceManager.o
+
+----------------------------------------------------
+| Executable program will be saved in file: output | 
+----------------------------------------------------
+
+172-10-20-68:Assignment 1 neesarg$ ./output 
+File Manager initalized with path: "resource.txt" 
+constructed new Node: [0x7fe7d3d00000]; Updated count = 1
+constructed new Node: [0x7fe7d3d00070]; Updated count = 2
+constructed new Node: [0x7fe7d3d001a0]; Updated count = 3
+constructed new Node: [0x7fe7d3d00210]; Updated count = 4
+constructed new Node: [0x7fe7d3c02710]; Updated count = 5
+constructed new Node: [0x7fe7d3c027b0]; Updated count = 6
+constructed new Node: [0x7fe7d3c02860]; Updated count = 7
+constructed new Node: [0x7fe7d3c02900]; Updated count = 8
+constructed new Node: [0x7fe7d3d002a0]; Updated count = 9
+constructed new Node: [0x7fe7d3c02a00]; Updated count = 10
+constructed new Node: [0x7fe7d3c02b10]; Updated count = 11
+constructed new Node: [0x7fe7d3d00350]; Updated count = 12
+ResourceManager: a is already in the system!
+ResourceManager: c is already in the system!
+ERROR: Can't change the link between d & b. It is already there in system.
+ERROR: Can't change the link between k & j. It is already there in system.
+ResourceManager: k is already in the system!
+ResourceManager: j is already in the system!
+constructed new Node: [0x7fe7d3d004c0]; Updated count = 13
+constructed new Node: [0x7fe7d3c02b80]; Updated count = 14
+constructed new Node: [0x7fe7d3d00410]; Updated count = 15
+constructed new Node: [0x7fe7d3d005f0]; Updated count = 16
+constructed new Node: [0x7fe7d3c02c70]; Updated count = 17
+constructed new Node: [0x7fe7d3d00550]; Updated count = 18
+constructed new Node: [0x7fe7d3c02d00]; Updated count = 19
+constructed new Node: [0x7fe7d3d00680]; Updated count = 20
+constructed new Node: [0x7fe7d3d006f0]; Updated count = 21
+constructed new Node: [0x7fe7d3c02de0]; Updated count = 22
+constructed new Node: [0x7fe7d3c02e50]; Updated count = 23
+
+InputManager: found empty line, cosidering it as EOF. Closing the file!
+FILE CLOSED!
+
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bombs (usable):
+          <-turret (usable):
+               <-tank (usable):
+                    <-tankSoldier1 (usable)
+                    <-tankSoldier2 (usable)
+                    <-tankSoldier3 (usable)
+          <-handgun (usable):
+               <-tank (usable) ~link~
+     <-bullets (usable):
+          <-handgun (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-g (usable)
+                    <-h (usable)
+                    <-i (usable)
+               <-j (usable)
+     <-k (usable):
+          <-j (usable) ~link~
+     <-l (usable):
+          <-j (usable) ~link~
+     <-m (usable):
+          <-n (usable):
+               <-i (usable) ~link~
+
+--------- ----------------- --------- 
+
+Press enter to move ahead.. 
+
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = d
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Redirect to delete function..
+Delete node named : g
+ResourceManager: node found, passing it to deleteThisNode()!
+Found its entry as childNode
+deleted Node at: [0x7fe7d3d004c0]; Updated count = 22
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = g
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Plotting graph of current structure..
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bombs (usable):
+          <-turret (usable):
+               <-tank (usable):
+                    <-tankSoldier1 (usable)
+                    <-tankSoldier2 (usable)
+                    <-tankSoldier3 (usable)
+          <-handgun (usable):
+               <-tank (usable) ~link~
+     <-bullets (usable):
+          <-handgun (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-h (usable)
+                    <-i (usable)
+               <-j (usable)
+     <-k (usable):
+          <-j (usable) ~link~
+     <-l (usable):
+          <-j (usable) ~link~
+     <-m (usable):
+          <-n (usable):
+               <-i (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = d
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Redirect to delete function..
+Delete node named : l
+ResourceManager: node found, passing it to deleteThisNode()!
+Found its entry as childNode
+deleteThisNode(): In childNode j
+deleteThisNode(): Found entry of baseNode, deleting it..
+markNotUsable: for node = j
+deleted Node at: [0x7fe7d3d00210]; Updated count = 21
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = g
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Plotting graph of current structure..
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bombs (usable):
+          <-turret (usable):
+               <-tank (usable):
+                    <-tankSoldier1 (usable)
+                    <-tankSoldier2 (usable)
+                    <-tankSoldier3 (usable)
+          <-handgun (usable):
+               <-tank (usable) ~link~
+     <-bullets (usable):
+          <-handgun (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-h (usable)
+                    <-i (usable)
+               <-j (not usable)
+     <-k (usable):
+          <-j (not usable) ~link~
+     <-m (usable):
+          <-n (usable):
+               <-i (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = i
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Redirected to informations function..
+Search for a node named = j
+
+-------------------
+        INFO       
+-------------------
+Object Name: "j", Type: "Node",
+Base Nodes: 2, ( k d )
+Child Nodes: 0, ( )
+Relies on Nodes: 3, ( k l d )
+Usable: 0
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = g
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Plotting graph of current structure..
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bombs (usable):
+          <-turret (usable):
+               <-tank (usable):
+                    <-tankSoldier1 (usable)
+                    <-tankSoldier2 (usable)
+                    <-tankSoldier3 (usable)
+          <-handgun (usable):
+               <-tank (usable) ~link~
+     <-bullets (usable):
+          <-handgun (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-h (usable)
+                    <-i (usable)
+               <-j (not usable)
+     <-k (usable):
+          <-j (not usable) ~link~
+     <-m (usable):
+          <-n (usable):
+               <-i (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = d
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Redirect to delete function..
+Delete node named : m
+ResourceManager: node found, passing it to deleteThisNode()!
+Found its entry as childNode
+deleteThisNode(): In childNode n
+deleteThisNode(): Found entry of baseNode, deleting it..
+markNotUsable: for node = n
+markNotUsable: for node = i
+deleted Node at: [0x7fe7d3c02710]; Updated count = 20
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = g
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Plotting graph of current structure..
+
+
+--------- Structure of "n" --------- 
+||n (not usable):
+     <-i (not usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bombs (usable):
+          <-turret (usable):
+               <-tank (usable):
+                    <-tankSoldier1 (usable)
+                    <-tankSoldier2 (usable)
+                    <-tankSoldier3 (usable)
+          <-handgun (usable):
+               <-tank (usable) ~link~
+     <-bullets (usable):
+          <-handgun (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-h (usable)
+                    <-i (not usable)
+               <-j (not usable)
+     <-k (usable):
+          <-j (not usable) ~link~
+
+--------- ----------------- --------- 
+
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = d
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Redirect to delete function..
+Delete node named : ore
+ResourceManager: node found, passing it to deleteThisNode()!
+deleteThisNode(): In childNode bombs
+deleteThisNode(): Found entry of baseNode, deleting it..
+markNotUsable: for node = bombs
+markNotUsable: for node = turret
+markNotUsable: for node = tank
+markNotUsable: for node = tankSoldier1
+markNotUsable: for node = tankSoldier2
+markNotUsable: for node = tankSoldier3
+markNotUsable: for node = handgun
+markNotUsable: for node = tank
+markNotUsable: for node = tankSoldier1
+markNotUsable: for node = tankSoldier2
+markNotUsable: for node = tankSoldier3
+deleteThisNode(): In childNode bullets
+deleteThisNode(): Found entry of baseNode, deleting it..
+markNotUsable: for node = bullets
+markNotUsable: for node = handgun
+markNotUsable: for node = tank
+markNotUsable: for node = tankSoldier1
+markNotUsable: for node = tankSoldier2
+markNotUsable: for node = tankSoldier3
+deleted Node at: [0x7fe7d3c02e50]; Updated count = 19
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = g
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Plotting graph of current structure..
+
+
+--------- Structure of "bullets" --------- 
+||bullets (not usable):
+     <-handgun (not usable):
+          <-tank (not usable):
+               <-tankSoldier1 (not usable)
+               <-tankSoldier2 (not usable)
+               <-tankSoldier3 (not usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "bombs" --------- 
+||bombs (not usable):
+     <-turret (not usable):
+          <-tank (not usable):
+               <-tankSoldier1 (not usable)
+               <-tankSoldier2 (not usable)
+               <-tankSoldier3 (not usable)
+     <-handgun (not usable):
+          <-tank (not usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "n" --------- 
+||n (not usable):
+     <-i (not usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "" --------- 
+|| (usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-h (usable)
+                    <-i (not usable)
+               <-j (not usable)
+     <-k (usable):
+          <-j (not usable) ~link~
+
+--------- ----------------- --------- 
+
+
+Commands,
+q: quit
+d: delete a node
+a: add a node or link
+g: plot graph of current structure
+i: informations about a node
+s: save current graph to resource.txt file
+Input = a
+
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
+
+Redirected to add function..
+To add a single node, write : "node-name"
+To add multiple nodes, write: "childName baseName"
+To add new link, write      :  "existingChildName existingBaseName"
+            OR              |--> one of these two nodes can also be totally new.
+(Note: Name of a node should not contain any whitespaces!)
+
+Exit: When you're finished, just press another enter!
+
+Add : e bullets
+Segmentation fault: 11
