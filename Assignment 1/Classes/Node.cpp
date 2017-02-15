@@ -50,7 +50,23 @@ static int totalNodesConstructed;
     void Node::description() {
       cout<<endl<<"Object Name: \""<<name<<"\", Type: \"Node\","<<endl;
       cout<<"Base Nodes: "<<baseNode.size()<<endl;
+      // Display presentBase nodes
+      for(int i=0; i<baseNode.size(); i++) {
+        cout<<baseNode.at(i)->name<<endl;
+      }
+
       cout<<"Child Node: "<<childNode.size()<<endl;
+      // Display presentBase nodes
+      for(int i=0; i<childNode.size(); i++) {
+        cout<<childNode.at(i)->name<<endl;
+      }
+
+      cout<<"Relies on Nodes: "<<reliesOnNodes.size()<<endl;
+      // Display presentBase nodes
+      for(int i=0; i<reliesOnNodes.size(); i++) {
+        cout<<reliesOnNodes.at(i)<<endl;
+      }
+
       cout<<"Usable: "<<usable<<endl;
     }
 
@@ -253,13 +269,16 @@ static int totalNodesConstructed;
               // If yes-> mark childNode as usable
               // If no->  mark it as not usable
       bool allReliesOnNodesPresentAsUsable = true;
+      // cout<<"Node: in isUsable()"<<endl;
 
       // Check for any not present reliesOnNodesNode
       int totalReliesOnNodes = this->reliesOnNodes.size();
       for(int i=0; i<totalReliesOnNodes; i++) {
         // Search for a node name in vector of Node*
           if( searchNodeNamedIsPresentAsUsableInItsBaseNodes(this->reliesOnNodes.at(i)) == false) {
+              cout<<"\nWarning: baseNode "<<this->reliesOnNodes.at(i)<<", not present. For "<<name<<endl;
               allReliesOnNodesPresentAsUsable = false;
+              break;
           }
       }
 
@@ -268,20 +287,25 @@ static int totalNodesConstructed;
 
 
     bool Node::searchNodeNamedIsPresentAsUsableInItsBaseNodes(string nodeName) {
-      bool result = true;
+      bool result = false;
+
+      // For every baseNode(s)
       for(int i=0; i<baseNode.size(); i++) {
         if(baseNode.at(i)->name == nodeName) {
           // baseNode is there
           if(baseNode.at(i)->usable == true) {
             // baseNode is usable
+            result = true;
+            break;
+
           } else {
             // baseNode is not-usable
-            result = false;
           }
+
         } else {
           // baseNode not found
-          result = false;
         }
       }
+
       return result;
     }

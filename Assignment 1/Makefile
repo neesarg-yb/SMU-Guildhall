@@ -29,3 +29,6 @@ ResourceManager.o: Classes/ResourceManager.cpp
 # will clean all created .o files and output
 clean:
 	rm -rf *o output
+
+keepJustOutput:
+	rm -rf *o

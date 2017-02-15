@@ -133,14 +133,25 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
                 //     Now add reference of childNode in baseNode
                 //     Add reference of baseNode in childNode
                 //     Add baseNode name in reliesOnNodes vector of childNode
-                //     Don't change childNode's usability; it won't affect by this operation
+
+                //////////////////////////////////////////////////////////////////////////
+                //     Change childNode's usability; it can affect by this operation    //
+                //////////////////////////////////////////////////////////////////////////
+
+
                 baseNodeReference->childNode.push_back(childNodeReference);
                 childNodeReference->baseNode.push_back(baseNodeReference);
                 childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
+                if(childNodeReference->isUsable() == true) {
+                  childNodeReference->usable = true;
+                } else {
+                  childNodeReference->usable = false;
+                  childNodeReference->description();
+                }
 
             } else {
               // If exist; can't change it
-              cout<<"ERROR: can't change the link between "<<baseNodeReference->name<<" & "<<childNodeReference->name<<". It is already there in system."<<endl;
+              cout<<"ERROR: Can't change the link between "<<baseNodeReference->name<<" & "<<childNodeReference->name<<". It is already there in system."<<endl;
             }
 
           } else if(baseNodeReference != NULL && childNodeReference == NULL) {
