@@ -48,24 +48,30 @@ static int totalNodesConstructed;
 
 
     void Node::description() {
-      cout<<endl<<"Object Name: \""<<name<<"\", Type: \"Node\","<<endl;
-      cout<<"Base Nodes: "<<baseNode.size()<<endl;
+      cout<<endl<<"-------------------"<<endl;
+      cout<<"        INFO       "<<endl;
+      cout<<"-------------------"<<endl;
+      cout<<"Object Name: \""<<name<<"\", Type: \"Node\","<<endl;
+      cout<<"Base Nodes: "<<baseNode.size()<<", ( ";
       // Display presentBase nodes
       for(int i=0; i<baseNode.size(); i++) {
-        cout<<baseNode.at(i)->name<<endl;
+        cout<<baseNode.at(i)->name<<" ";
       }
+      cout<<")"<<endl;
 
-      cout<<"Child Node: "<<childNode.size()<<endl;
+      cout<<"Child Nodes: "<<childNode.size()<<", ( ";
       // Display presentBase nodes
       for(int i=0; i<childNode.size(); i++) {
-        cout<<childNode.at(i)->name<<endl;
+        cout<<childNode.at(i)->name<<" ";
       }
+      cout<<")"<<endl;
 
-      cout<<"Relies on Nodes: "<<reliesOnNodes.size()<<endl;
+      cout<<"Relies on Nodes: "<<reliesOnNodes.size()<<", ( ";
       // Display presentBase nodes
       for(int i=0; i<reliesOnNodes.size(); i++) {
-        cout<<reliesOnNodes.at(i)<<endl;
+        cout<<reliesOnNodes.at(i)<<" ";
       }
+      cout<<")"<<endl;
 
       cout<<"Usable: "<<usable<<endl;
     }

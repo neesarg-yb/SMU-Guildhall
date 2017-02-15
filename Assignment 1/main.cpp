@@ -22,6 +22,12 @@ using namespace std;
 // Most probably I'll delete this function in end
 void displayStructureOfNodesInVector(vector<Node *> baseNodes);
 
+// Just a silly function to clear console using endl(s) :p
+void clearConsole();
+
+void flush_stream(std::istream& stream);
+
+
 int main(int argc, char const *argv[]) {
   // Setting up ResourceManager: It handles the whole system
   ResourceManager theResourceManager;
@@ -32,18 +38,129 @@ int main(int argc, char const *argv[]) {
   // Read txt file till end
   string line = fileInput.readFileLineByLine();
   while (line != ""){
-    // get input pair from file and add it via theResourceManager
+    // get input pair from file
     pair<string, string> baseAndChild = fileInput.getBaseAndChildFrom(line);
+    // add that pair via theResourceManager
     theResourceManager.addBaseAndChildNodesFromStringsToGame(baseAndChild.first, baseAndChild.second);
 
+    // read next line
     line = fileInput.readFileLineByLine();
   }
 
+  // Display structure 1st time
+  clearConsole();
   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
-  getchar();
+  /////////////////////////
+  // Input Loop - starts //
+  /////////////////////////
+  char input;
+  cout<<"Press any enter to move ahead.. "<<endl;
+  while (getchar() != '\n'); // Ignores every other characters untill '\n'
 
+  do {
+    cout<<"\nCommands,"<<endl;
+    cout<<"q: quit"<<endl;
+    cout<<"d: delete a node"<<endl;
+    cout<<"a: add a node or link"<<endl;
+    cout<<"g: plot graph of current structure"<<endl;
+    cout<<"i: informations about a node"<<endl;
+
+    // Take user's input
+    cout<<"Input = ";
+    input = getchar();
+
+    if(input == '\n') {
+      cout<<"\nShould not hit enter here!"<<endl;
+      cout<<"Hit it again to goto commands screen again.."<<endl;
+    }
+    // Ignores every other characters utill it finds '\n'
+    while(getchar() != '\n');
+
+    // Switch for operations
+    switch (input) {
+      case 'q':
+      // quit selected
+        clearConsole();
+        cout<<"\nQuit selected!\nDeleting all nodes..\nGood Bye!\n"<<endl;
+        break;
+
+      case 'd': {
+      // delete node selected
+        clearConsole();
+        cout<<"\nRedirect to delete function.."<<endl;
+        break;
+      }
+
+      case 'a': {
+      // add node or link selected
+        clearConsole();
+        cout<<"\nRedirected to add function.."<<endl;
+        cout<<"To add a single node, write : \"node-name\""<<endl;
+        cout<<"To add multiple nodes, write: \"childName baseName\""<<endl;
+        cout<<"To add new link, write      :  \"existingChildName existingBaseName\""<<endl;
+        cout<<"(Note: Name of a node should not contain any whitespaces!)"<<endl;
+
+        string userInput;
+        cout<<"Input = ";
+        getline(cin, userInput);
+        // cin.sync(); // Sync cin, to ignore other inputs
+        // while (getchar() != '\n'); // Ignores every other characters untill '\n'
+
+        cout<<endl<<"User i/p = "<<userInput<<endl;
+        // get pair from input string
+        pair<string, string> baseAndChildFromUser = fileInput.getBaseAndChildFrom(userInput);
+        // add that pair via theResourceManager
+        theResourceManager.addBaseAndChildNodesFromStringsToGame(baseAndChildFromUser.first, baseAndChildFromUser.second);
+        break;
+      }
+
+      case 'g':
+      // plot graph selected
+        clearConsole();
+        cout<<"\nPlotting graph of current structure.."<<endl;
+        displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
+        break;
+
+      case 'i': {
+      // information selected
+        clearConsole();
+        cout<<"\nInformations about a node selected.."<<endl;
+
+        string nodeN;
+        Node * gotNode;
+
+        cout<<"Search for a node named = ";
+        cin>>nodeN;
+        cin.sync();
+        while(getchar() != '\n');
+
+        gotNode = theResourceManager.searchForNode(nodeN);
+        if(gotNode != NULL) {
+          gotNode->description();
+        } else {
+            cout<<"\nNo matching node found!"<<endl;
+        }
+
+        break;
+      }
+
+      default:
+      // no matching commands
+        clearConsole();
+        cout<<"\nNo matching command found! Try again.."<<endl;
+        break;
+    }
+
+  } while(input != 'q');
+
+  /////////////////////////
+  //  Input Loop - ends  //
+  /////////////////////////
+
+  // proceed to quit, delete everything!
   theResourceManager.deleteAllIndependentBaseNodesSafely();
+
   return 0;
 }
 
@@ -56,4 +173,16 @@ void displayStructureOfNodesInVector(vector<Node *> baseNodes) {
     baseNodes[indN-1]->makeGraphOfThis();
     cout<<"\n--------- ----------------- --------- \n"<<endl;
   }
+}
+
+void clearConsole() {
+  for(int i=0; i<60; i++) {
+    cout<<endl;
+  }
+}
+
+void flush_stream(std::istream& stream)
+{
+    stream.clear();
+    stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
