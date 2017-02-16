@@ -54,16 +54,14 @@ pair<string, string> InputManager::getBaseAndChildFrom(string line) {
   if(line != "") {
     // Get position of blank to split line in its components
     int blankAt = line.find(" ");
-    // cout<<"\nInputManager: blankAt = "<<blankAt<<endl;
 
     if(blankAt > 0) {
       // Everything is okay; make a pair of two words
       baseChildPair = make_pair(line.substr(blankAt+1), line.substr(0, blankAt));
-      // cout<<"InputManager: base & child both there!"<<endl;
     } else if(blankAt == -1) {
       // Blank not found; it might be just a single base
       baseChildPair = make_pair(line, "NULL");
-      // cout<<"InputManager: only base is found!"<<endl;
+
     } else {
       // cout<<"!!! WARNING: getBaseAndChildFrom-> blankAt == 0.. !!!\n";
     }

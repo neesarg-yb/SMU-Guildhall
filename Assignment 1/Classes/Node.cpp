@@ -30,7 +30,6 @@ static int totalNodesConstructed;
       for(int i = childNode.size()-1; i>=0; i--) {
           // Recursion
           childNode[i]->deleteAllChildNodes();
-          // cout<<"Operating to delete: "<<childNode[i]->name<<endl;
 
           // Delete that Node pointer and all its references without memory leak
           deleteItSafely(childNode[i]);
@@ -169,24 +168,19 @@ static int totalNodesConstructed;
       // For every base nodes of the currentChild
       for(int cb = currentChild->baseNode.size(); cb>=1; cb--) {
         Node * cbNode = currentChild->baseNode[cb-1];
-        // cout<<"  Currently in: "<<cbNode->name<<endl;
 
         // For its every childNode
         for(int cbc = cbNode->childNode.size(); cbc>= 1; cbc--) {
         Node *cbcNode = cbNode->childNode[cbc-1];
-        // cout<<"    On: "<<cbcNode->name<<endl;
 
         // Find reference of currentChild Node
         if(cbcNode->name == nameOfChild) {
-          // cout<<"       Found: "<< nameOfChild<<"; removing its reference!"<<endl;
-
           // Remove its reference
           cbNode->childNode.erase(cbNode->childNode.begin() + cbc-1);
 
           // if this cbNode was the only last one left,
           // delete currentChild Node, also.
           if(cb == 1) {
-            // cout<<"  ========= All references of "<<nameOfChild<<" removed! Now, deleting node itself!!"<<endl;
             delete cbcNode;
             }
           break;
@@ -196,7 +190,6 @@ static int totalNodesConstructed;
     }
 
     Node* Node::findNodeNamedUsingDFS(string searchingForNode) {
-        // cout<<"DFS: Finding node: "<<searchingForNode<<"; In baseNode named: "<<this->name<<"."<<endl;
         // It will contain Nodes which are already visited
         vector<string> *visitedVector = new vector<string>;
 
@@ -214,37 +207,23 @@ static int totalNodesConstructed;
 
       // add that name to visitedVector
       visited->push_back(findFrom->name);
-      // cout<<"DFS: pushed_back: "<<findFrom->name<<" in visited."<<endl;
-
       // If node found
       if(findFrom->name == searchingForNode) {
-        // cout<<"DFS: FOUND!! "<<searchingForNode<<endl;
         result = findFrom;
         return result;
       }
 
       // Recursion for its childNode(s)
-      // cout<<"DFS: Searching for its childNodes"<<endl;
       for(int c=0; c<findFrom->childNode.size(); c++) {
         // Next child to check
         Node * nextChild = findFrom->childNode[c];
-        // cout<<"DFS: in childNode: "<<nextChild->name<<" for loop"<<endl;
-
         if(nextChild->searchThisNodeInVector(visited)) {
           // Node is already visited
           // Do nothing, NULL will be returned at the end
 
-          // // Desplay visited vector
-          // // cout<<"\nDFS: Current visited vector:"<<endl;
-          // for(int j=0; j<visited->size(); j++) {
-          //   cout<<visited->at(j)<<endl;
-          // }
-
-          // cout<<"DFS: "<<nextChild->name<<" is already visited"<<endl;
         } else {
           // This Node is not visited
           // Do DFS on it
-          // cout<<"DFS: "<<nextChild->name<<" is not visited"<<endl;
           result = DFSUtil(nextChild, searchingForNode, visited);
 
           // If we got the reference, return it to end the search
@@ -275,14 +254,12 @@ static int totalNodesConstructed;
               // If yes-> mark childNode as usable
               // If no->  mark it as not usable
       bool allReliesOnNodesPresentAsUsable = true;
-      // cout<<"Node: in isUsable()"<<endl;
 
       // Check for any not present reliesOnNodesNode
       int totalReliesOnNodes = this->reliesOnNodes.size();
       for(int i=0; i<totalReliesOnNodes; i++) {
         // Search for a node name in vector of Node*
           if( searchNodeNamedIsPresentAsUsableInItsBaseNodes(this->reliesOnNodes.at(i)) == false) {
-              // cout<<"Node: "<<name<<" will not be usable, because of it baseNode: "<<this->reliesOnNodes.at(i)<<endl;
               allReliesOnNodesPresentAsUsable = false;
               break;
           }
@@ -330,7 +307,6 @@ static int totalNodesConstructed;
           Node *bcN = bN->childNode.at(j);
 
           if(bcN->name == this->name) {
-            // cout<<"Found its entry as childNode"<<endl;
             // Remove its reference
             bN->childNode.erase(bN->childNode.begin() + j);
             break;
@@ -351,7 +327,6 @@ static int totalNodesConstructed;
       for(int i=0; i<childNode.size(); i++) {
         // current childNode
         Node* cNode = childNode.at(i);
-        // cout<<"deleteThisNode(): In childNode "<<cNode->name<<endl;
 
         // Find baseNode's entry from currentChildNode
         // N Remove it
@@ -361,7 +336,6 @@ static int totalNodesConstructed;
 
           // Found entry
           if(cbNode->name == this->name) {
-            // cout<<"deleteThisNode(): Found entry of baseNode, deleting it.."<<endl;
             // Remove its reference
             cNode->baseNode.erase(cNode->baseNode.begin() + e);
             break;
@@ -393,7 +367,6 @@ static int totalNodesConstructed;
       if(isUsable == false) {
         // Mark recursivly all false
         this->usable = false;
-        // cout<<"markedUsableAs = false. For node = "<<this->name<<endl;
 
         for(int i=0; i<childNode.size(); i++) {
           childNode.at(i)->markUsableAs(false);
@@ -404,7 +377,6 @@ static int totalNodesConstructed;
         if(this->isUsable() == true) {
           // It has all reliesOnNodes baseNode(s)
           this->usable = true;
-          // cout<<"markedUsableAs = true. For node = "<<this->name<<endl;
 
           for(int i=0; i<childNode.size(); i++) {
             childNode.at(i)->markUsableAs(true);
@@ -413,7 +385,7 @@ static int totalNodesConstructed;
           } else {
             // It does not have all reliesOn baseNode(s)
             // It should be false already
-            // cout<<"Node "<<this->name<<"is not usable!"endl<<"  ( It does not have all reliesOn baseNode(s)! )"<<endl;;
+
           }
         }
     }

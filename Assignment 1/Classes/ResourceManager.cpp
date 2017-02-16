@@ -50,7 +50,6 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
   } else {
     // got baseName and childName, successfully
-    // cout<<"gotIt: "<<baseName<<", "<<childName<<endl;
 
     // Search for baseNode in game's existing structure
         // get baseNodeReference
@@ -97,7 +96,6 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
             if(baseNodeReference->childNode.size() != 0) {
               for(int i=0; i<baseNodeReference->childNode.size(); i++) {
-                // cout<<"i1 = "<<i<<endl;
                 // Search in childNodes of the baseNode
                 if(baseNodeReference->childNode.at(i) == childNodeReference) {
                   linkExists = true;
@@ -109,7 +107,6 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
             if(linkExists == false && baseNodeReference->baseNode.size() != 0) {
               // Search in baseNodes of the baseNode
               for(int i=0; i<baseNodeReference->baseNode.size(); i++) {
-                // cout<<"i2 = "<<i<<endl;
                 if(baseNodeReference->baseNode.at(i) == childNodeReference) {
                   linkExists = true;
                   break;
@@ -119,7 +116,6 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
             // If not: add it
             if(linkExists == false) {
-                // cout<<"\nYAY! Link not exist!!"<<endl;
                 // Run add operation
                 // Check if childNode is in independentBaseNodes
                 for(int i=0; i<independentBaseNodes.size(); i++) {
@@ -149,13 +145,11 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
                 } else {
                   // baseNodeReference is already in reliesOnNodes
                   // Do not add it again
-                  // cout<<"ResourceManager: baseNode already present in reliesOnNodes!"<<endl;
                 }
                 if(childNodeReference->isUsable() == true) {
                   childNodeReference->markUsableAs(true);
                 } else {
                   childNodeReference->markUsableAs(false);
-                  // childNodeReference->description();
                 }
 
             } else {
@@ -165,7 +159,6 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
           } else if(baseNodeReference != NULL && childNodeReference == NULL) {
             // cout<<"Yup! b != NULL, c == NULL!"<<endl;
-
             // CASE III: Base is in the game; but Child isn't | I.E. childNodeReference == NULL
             childNodeReference = new Node;
             childNodeReference->name = childName;

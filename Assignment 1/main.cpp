@@ -124,8 +124,6 @@ int main(int argc, char const *argv[]) {
         do{
           cout<<"Add : ";
           getline(cin, userInput);
-          // cin.sync(); // Sync cin, to ignore other inputs
-          // while (getchar() != '\n'); // Ignores every other characters untill '\n'
 
           // get pair from input string
           pair<string, string> baseAndChildFromUser = fileInput.getBaseAndChildFrom(userInput);
