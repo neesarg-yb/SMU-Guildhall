@@ -63,6 +63,10 @@ class Node {
     // When childNode is existing one, we need to cross-check using this function
     bool searchNameInVectorOfString(string nodeName, vector<string> v);
 
+    // Search for a name of current Node in vector of strings
+    // This function is created to support DFSUtil method
+    bool searchThisNodeInVector(vector<string> *v);
+
   private:
     // Adds baseNode
     // It's a private function; so no count cross-check is applied
@@ -82,10 +86,6 @@ class Node {
     // Helper function of findNodeNamedUsingDFS()
     // Recursively does the job
     Node* DFSUtil(Node *findFrom, string searchingForNode, vector<string> *visited);
-
-    // Search for a name of current Node in vector of strings
-    // This function is created to support DFSUtil method
-    bool searchThisNodeInVector(vector<string> *v);
 
     // Helps to find whether the node is usable or not
     bool searchNodeNamedIsPresentAsUsableInItsBaseNodes(string nodeName);

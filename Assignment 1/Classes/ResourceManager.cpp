@@ -27,8 +27,17 @@ void ResourceManager::deleteAllIndependentBaseNodesSafely(){
 
 
 void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, string childName) {
+  // Input must be like "node1 "; instead of "node1"
+  // Correct it
+  if(baseName == "") {
+    baseName = childName;
+    childName = "NULL";
+  }
+
+
   if(baseName == "ERROR" || childName == "ERROR") {
     // Ignore these input
+    cout<<"\nERROR: Broken add notation! (ResourceManager)"<<endl;
 
   } else if(childName == "NULL") {
     // Add this base to independentBaseNodes

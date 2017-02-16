@@ -11,6 +11,7 @@
 #include "Classes/Node.h"
 #include "Classes/ResourceManager.h"
 #include "Classes/InputManager.h"
+#include "Classes/ExportManager.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -48,8 +49,10 @@ int main(int argc, char const *argv[]) {
     line = fileInput.readFileLineByLine();
   }
 
+  // Initalize theExportManager
+  ExportManager theExportManager = ExportManager(&theResourceManager.independentBaseNodes);
+
   // Display structure 1st time
-  clearConsole();
   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
   /////////////////////////
@@ -68,6 +71,7 @@ int main(int argc, char const *argv[]) {
     cout<<"-> a: add a node or link"<<endl;
     cout<<"-> g: plot graph of current structure"<<endl;
     cout<<"-> i: informations about a node"<<endl;
+    cout<<"-> s: save current structure in file"<<endl;
 
     // Take user's input
     cout<<"Input = ";
@@ -167,6 +171,16 @@ int main(int argc, char const *argv[]) {
 
         break;
       }
+
+      case 's':
+      // save to file
+        clearConsole();
+          cout<<"\n\n-------------------"<<endl;
+          cout<<"    Save to file   "<<endl;
+          cout<<"-------------------"<<endl;
+      theExportManager.saveToFile();
+
+      break;
 
       default:
       // no matching commands

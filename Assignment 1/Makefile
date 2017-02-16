@@ -11,8 +11,8 @@ all: output
 	$(info ----------------------------------------------------)
 	$(info )
 
-output: main.o Node.o InputManager.o ResourceManager.o
-	$(CC) -o $(OUTFILE) main.o Node.o InputManager.o ResourceManager.o
+output: main.o Node.o InputManager.o ResourceManager.o ExportManager.o
+	$(CC) -o $(OUTFILE) main.o Node.o InputManager.o ResourceManager.o ExportManager.o
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
@@ -25,6 +25,9 @@ InputManager.o: Classes/InputManager.cpp
 
 ResourceManager.o: Classes/ResourceManager.cpp
 	$(CC) $(CFLAGS) Classes/ResourceManager.cpp
+
+ExportManager.o: Classes/ExportManager.cpp
+	$(CC) $(CFLAGS) Classes/ExportManager.cpp
 
 # will clean all created .o files and output
 clean:
