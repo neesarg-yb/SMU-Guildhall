@@ -68,7 +68,6 @@ int main(int argc, char const *argv[]) {
     cout<<"-> a: add a node or link"<<endl;
     cout<<"-> g: plot graph of current structure"<<endl;
     cout<<"-> i: informations about a node"<<endl;
-    cout<<"-> s: save current graph to resource.txt file"<<endl;
 
     // Take user's input
     cout<<"Input = ";
@@ -170,16 +169,6 @@ int main(int argc, char const *argv[]) {
 
         break;
       }
-
-      case 's':
-        clearConsole();
-          cout<<"\n\n-------------------"<<endl;
-          cout<<"       Save       "<<endl;
-          cout<<"-------------------"<<endl;
-        cout<<"Saving in file.."<<endl;
-        theResourceManager.saveCurrentStructureInResourcesFile();
-        cout<<"\nIt should be saved by now. :)"<<endl;
-        break;
 
       default:
       // no matching commands
