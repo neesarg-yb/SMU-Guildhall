@@ -5,6 +5,7 @@
  *  || Makefile commands ||
  *  make: will compile whole project and creates executable "output" file
  *  make clean: will clean created output and .o files
+ *  make keepJustOutput: will clean all .o files, not the output file.
  *
  */
 #include "Classes/Node.h"

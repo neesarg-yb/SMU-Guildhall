@@ -369,7 +369,7 @@ static int totalNodesConstructed;
         }
 
         // Mark childNode not-usable, Recursively!!
-        cNode->markNotUsable();
+        cNode->markUsableAs(false);
 
         // Check if childNode not have any parentNode
         if(cNode->baseNode.size() == 0) {
@@ -385,15 +385,48 @@ static int totalNodesConstructed;
       return leftChildren;
     }
 
-    void Node::markNotUsable() {
-      // mark thisNode not-usable
-          // For all its childNode(s)
-              // call markNotUsable()
+    void Node::markUsableAs(bool isUsable) {
+      // If want to mark all child not-usable
+            // Just mark it
+      // If want to mark usable
+            // You have to check for usability first
+      if(isUsable == false) {
+        // Mark recursivly all false
+        this->usable = false;
+        cout<<"markedUsableAs = false. For node = "<<this->name<<endl;
 
-      cout<<"markNotUsable: for node = "<<this->name<<endl;
+        for(int i=0; i<childNode.size(); i++) {
+          childNode.at(i)->markUsableAs(false);
+        }
+      } else {
+        // Want to mark usable = true
+        // Check before marking
+        if(this->isUsable() == true) {
+          // It has all reliesOnNodes baseNode(s)
+          this->usable = true;
+          cout<<"markedUsableAs = true. For node = "<<this->name<<endl;
 
-      this->usable = false;
-      for(int i=0; i<childNode.size(); i++) {
-        childNode.at(i)->markNotUsable();
+          for(int i=0; i<childNode.size(); i++) {
+            childNode.at(i)->markUsableAs(true);
+            }
+
+          } else {
+            // It does not have all reliesOn baseNode(s)
+            // It should be false already
+            cout<<"Not markedUsableAs = true. For node = "<<this->name<<endl<<"  ( It does not have all reliesOn baseNode(s)! )"<<endl;;
+          }
+        }
+    }
+
+    bool Node::searchNameInVectorOfString(string nodeName, vector<string> v) {
+      // Go through every elements of the vector
+      for(int i=0; i<v.size(); i++) {
+        // If name found; return true
+        if(v.at(i) == nodeName) {
+          return true;
+        }
       }
+
+      // Node's name not found!
+      return false;
     }

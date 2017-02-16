@@ -34,20 +34,10 @@ class ResourceManager {
     // Deletes a node. Also,
     //  -> delete links of that node from its childNodes
     //  -> delete links of that node from its baseNodes
-    //  -> make all childNodes inactive
+    //  -> make all childNodes not-usable
     void deleteNodeNamed(string nodeName);
 
 
     void saveCurrentStructureInResourcesFile();
   private:
-
-    // addBaseAndChildNodesFromStringsToGame() function will pass on this on
-    // Will consider following operations in check
-        // (1) Add baseNode link in childNode
-        // (2) Add childNode link in baseNode
-        // (3) Set-up or recheck value of node.usable
-        //      -> Usable if,
-        //            *  every reliesOnNodes are there in baseNodes vector
-        //      -> Not Usable if,
-        //            * every reliesOnNodes are not present in baseNodes vector
 };

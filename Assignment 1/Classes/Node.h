@@ -52,9 +52,16 @@ class Node {
     // returns vector<Node *> of childNode(s) who does not have any Parents
     vector<Node *> * deleteThisNode();
 
-    // Marks a node and all its childNode(s) not-usable
+    // Marks a node and all its childNode(s) as suggested by isUsable
     // Recursively!
-    void markNotUsable();
+    // If user suggested to mark as usable = true,
+        // This function will ensure its usability before marking it as a true
+    void markUsableAs(bool isUsable);
+
+    // Search for a name in vector of strings
+    // This function is created to call before vector.push_back operations of reliesOnNodes
+    // When childNode is existing one, we need to cross-check using this function
+    bool searchNameInVectorOfString(string nodeName, vector<string> v);
 
   private:
     // Adds baseNode

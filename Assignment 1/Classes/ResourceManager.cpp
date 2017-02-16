@@ -142,11 +142,19 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
 
                 baseNodeReference->childNode.push_back(childNodeReference);
                 childNodeReference->baseNode.push_back(baseNodeReference);
-                childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
-                if(childNodeReference->isUsable() == true) {
-                  childNodeReference->usable = true;
+                // if baseNode not present in reliesOnNodes, add it
+                if( childNodeReference->searchNameInVectorOfString(baseNodeReference->name, childNodeReference->reliesOnNodes) != true ) {
+                  // Not present, Add it
+                  childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
                 } else {
-                  childNodeReference->markNotUsable();
+                  // baseNodeReference is already in reliesOnNodes
+                  // Do not add it again
+                  cout<<"ResourceManager: baseNode already present in reliesOnNodes!"<<endl;
+                }
+                if(childNodeReference->isUsable() == true) {
+                  childNodeReference->markUsableAs(true);
+                } else {
+                  childNodeReference->markUsableAs(false);
                   // childNodeReference->description();
                 }
 
@@ -203,7 +211,22 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
             independentBaseNodes.push_back(baseNodeReference);
             baseNodeReference->childNode.push_back(childNodeReference);
             childNodeReference->baseNode.push_back(baseNodeReference);
-            childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
+            // if baseNode not present in reliesOnNodes, add it
+            if( childNodeReference->searchNameInVectorOfString(baseNodeReference->name, childNodeReference->reliesOnNodes) != true ) {
+              // Not present, Add it
+              childNodeReference->reliesOnNodes.push_back(baseNodeReference->name);
+            } else {
+              // baseNodeReference is already in reliesOnNodes
+              // Do not add it again
+              cout<<"ResourceManager: baseNode already present in reliesOnNodes!"<<endl;
+            }
+
+            if(childNodeReference->isUsable() == true) {
+              childNodeReference->markUsableAs(true);
+            } else {
+              childNodeReference->markUsableAs(false);
+              // childNodeReference->description();
+            }
 
           } else {
             cout<<"ERROR: NO INPUT CASES MATCHED!!"<<endl;

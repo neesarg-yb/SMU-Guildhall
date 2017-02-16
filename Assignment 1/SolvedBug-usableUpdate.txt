@@ -1,0 +1,1311 @@
+172-10-20-68:Assignment 1 neesarg$ make
+g++ -c -Wall Classes/Node.cpp
+g++ -c -Wall Classes/ResourceManager.cpp
+g++ -o output main.o Node.o InputManager.o ResourceManager.o
+
+----------------------------------------------------
+| Executable program will be saved in file: output | 
+----------------------------------------------------
+
+172-10-20-68:Assignment 1 neesarg$ ./output 
+File Manager initalized with path: "resource.txt" 
+constructed new Node: [0x7fa2ac500000]; Updated count = 1
+constructed new Node: [0x7fa2ac500070]; Updated count = 2
+constructed new Node: [0x7fa2ac5001a0]; Updated count = 3
+constructed new Node: [0x7fa2ac500210]; Updated count = 4
+constructed new Node: [0x7fa2ac402720]; Updated count = 5
+constructed new Node: [0x7fa2ac4027c0]; Updated count = 6
+constructed new Node: [0x7fa2ac402870]; Updated count = 7
+constructed new Node: [0x7fa2ac402910]; Updated count = 8
+markedUsableAs = true. For node = j
+constructed new Node: [0x7fa2ac5002a0]; Updated count = 9
+constructed new Node: [0x7fa2ac402990]; Updated count = 10
+markedUsableAs = true. For node = j
+constructed new Node: [0x7fa2ac402ad0]; Updated count = 11
+constructed new Node: [0x7fa2ac500370]; Updated count = 12
+ResourceManager: a is already in the system!
+ResourceManager: c is already in the system!
+ERROR: Can't change the link between d & b. It is already there in system.
+ERROR: Can't change the link between k & j. It is already there in system.
+ResourceManager: k is already in the system!
+ResourceManager: j is already in the system!
+constructed new Node: [0x7fa2ac402b50]; Updated count = 13
+constructed new Node: [0x7fa2ac500410]; Updated count = 14
+markedUsableAs = true. For node = i
+constructed new Node: [0x7fa2ac500480]; Updated count = 15
+constructed new Node: [0x7fa2ac5004f0]; Updated count = 16
+constructed new Node: [0x7fa2ac402c50]; Updated count = 17
+constructed new Node: [0x7fa2ac500580]; Updated count = 18
+constructed new Node: [0x7fa2ac402cf0]; Updated count = 19
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+constructed new Node: [0x7fa2ac500630]; Updated count = 20
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+constructed new Node: [0x7fa2ac5006a0]; Updated count = 21
+markedUsableAs = true. For node = turret
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+constructed new Node: [0x7fa2ac402de0]; Updated count = 22
+markedUsableAs = true. For node = handgun
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+markedUsableAs = true. For node = handgun
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+constructed new Node: [0x7fa2ac402e50]; Updated count = 23
+markedUsableAs = true. For node = bombs
+markedUsableAs = true. For node = turret
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+markedUsableAs = true. For node = handgun
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+markedUsableAs = true. For node = bullets
+markedUsableAs = true. For node = handgun
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+constructed new Node: [0x7fa2ac402f30]; Updated count = 24
+constructed new Node: [0x7fa2ac402fa0]; Updated count = 25
+constructed new Node: [0x7fa2ac500770]; Updated count = 26
+markedUsableAs = true. For node = bulletsSMU
+markedUsableAs = true. For node = handgunSMU
+constructed new Node: [0x7fa2ac403090]; Updated count = 27
+constructed new Node: [0x7fa2ac403100]; Updated count = 28
+
+InputManager: found empty line, cosidering it as EOF. Closing the file!
+FILE CLOSED!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###################################..
+#
+#  Nodes without any baseNode = { "a" "ore" "oreSMU"  }
+#
+###################################..
+
+
+--------- Structure of "oreSMU" --------- 
+||oreSMU (usable):
+     <-bulletsSMU (usable):
+          <-handgunSMU (usable)
+          <-turretSMU (usable)
+     <-bombsSMU (usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bombs (usable):
+          <-turret (usable):
+               <-tank (usable):
+                    <-tankSoldier1 (usable)
+                    <-tankSoldier2 (usable)
+                    <-tankSoldier3 (usable)
+          <-handgun (usable):
+               <-tank (usable) ~link~
+     <-bullets (usable):
+          <-handgun (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-g (usable)
+                    <-h (usable)
+                    <-i (usable)
+               <-j (usable)
+     <-k (usable):
+          <-j (usable) ~link~
+     <-l (usable):
+          <-j (usable) ~link~
+     <-m (usable):
+          <-n (usable):
+               <-i (usable) ~link~
+
+--------- ----------------- --------- 
+
+Press enter to move ahead.. 
+
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+       Delete     
+-------------------
+Node name : bombs
+ResourceManager: node found, passing it to deleteThisNode()!
+Found its entry as childNode
+deleteThisNode(): In childNode turret
+deleteThisNode(): Found entry of baseNode, deleting it..
+markedUsableAs = false. For node = turret
+markedUsableAs = false. For node = tank
+markedUsableAs = false. For node = tankSoldier1
+markedUsableAs = false. For node = tankSoldier2
+markedUsableAs = false. For node = tankSoldier3
+deleteThisNode(): In childNode handgun
+deleteThisNode(): Found entry of baseNode, deleting it..
+markedUsableAs = false. For node = handgun
+markedUsableAs = false. For node = tank
+markedUsableAs = false. For node = tankSoldier1
+markedUsableAs = false. For node = tankSoldier2
+markedUsableAs = false. For node = tankSoldier3
+deleted Node at: [0x7fa2ac5006a0]; Updated count = 27
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = g
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+       Graph        
+-------------------
+Plotting current structure..
+
+
+###################################..
+#
+#  Nodes without any baseNode = { "a" "ore" "oreSMU" "turret"  }
+#
+###################################..
+
+
+--------- Structure of "turret" --------- 
+||turret (not usable):
+     <-tank (not usable):
+          <-tankSoldier1 (not usable)
+          <-tankSoldier2 (not usable)
+          <-tankSoldier3 (not usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "oreSMU" --------- 
+||oreSMU (usable):
+     <-bulletsSMU (usable):
+          <-handgunSMU (usable)
+          <-turretSMU (usable)
+     <-bombsSMU (usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bullets (usable):
+          <-handgun (not usable):
+               <-tank (not usable):
+                    <-tankSoldier1 (not usable)
+                    <-tankSoldier2 (not usable)
+                    <-tankSoldier3 (not usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-g (usable)
+                    <-h (usable)
+                    <-i (usable)
+               <-j (usable)
+     <-k (usable):
+          <-j (usable) ~link~
+     <-l (usable):
+          <-j (usable) ~link~
+     <-m (usable):
+          <-n (usable):
+               <-i (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = i
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+    Information   
+-------------------
+Search for a node named = handgun
+
+-------------------
+        INFO       
+-------------------
+Object Name: "handgun", Type: "Node",
+Base Nodes: 1, ( bullets )
+Child Nodes: 1, ( tank )
+Relies on Nodes: 2, ( bullets bombs )
+Usable: 0
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = i
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+    Information   
+-------------------
+Search for a node named = turret
+
+-------------------
+        INFO       
+-------------------
+Object Name: "turret", Type: "Node",
+Base Nodes: 0, ( )
+Child Nodes: 1, ( tank )
+Relies on Nodes: 1, ( bombs )
+Usable: 0
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+  Add Node & Link 
+-------------------
+-> To add a single node, write : "node-name"
+-> To add multiple nodes, write: "childName baseName"
+-> To add new link, write      : "existingChildName existingBaseName"
+              OR               : one of these two nodes can also be totally new.
+(Note: Name of a node should not contain any whitespaces!)
+
+-> Exit: When you're finished, just press another enter!
+
+Add : handgun bombs
+constructed new Node: [0x7fa2ac403170]; Updated count = 28
+markedUsableAs = true. For node = handgun
+Node: tank will not be usable, because of it baseNode: turret
+Not markedUsableAs = true. For node = tank
+  ( It does not have all reliesOn baseNode(s)! )
+Add : g
+ResourceManager: g is already in the system!
+Add : 
+InputManager: getBaseAndChildFrom-> line == ""!
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = g
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+       Graph        
+-------------------
+Plotting current structure..
+
+
+###################################..
+#
+#  Nodes without any baseNode = { "a" "ore" "oreSMU" "turret" "bombs"  }
+#
+###################################..
+
+
+--------- Structure of "bombs" --------- 
+||bombs (usable):
+     <-handgun (usable):
+          <-tank (not usable):
+               <-tankSoldier1 (not usable)
+               <-tankSoldier2 (not usable)
+               <-tankSoldier3 (not usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "turret" --------- 
+||turret (not usable):
+     <-tank (not usable):
+          <-tankSoldier1 (not usable)
+          <-tankSoldier2 (not usable)
+          <-tankSoldier3 (not usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "oreSMU" --------- 
+||oreSMU (usable):
+     <-bulletsSMU (usable):
+          <-handgunSMU (usable)
+          <-turretSMU (usable)
+     <-bombsSMU (usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bullets (usable):
+          <-handgun (usable):
+               <-tank (not usable):
+                    <-tankSoldier1 (not usable)
+                    <-tankSoldier2 (not usable)
+                    <-tankSoldier3 (not usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-g (usable)
+                    <-h (usable)
+                    <-i (usable)
+               <-j (usable)
+     <-k (usable):
+          <-j (usable) ~link~
+     <-l (usable):
+          <-j (usable) ~link~
+     <-m (usable):
+          <-n (usable):
+               <-i (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+  Add Node & Link 
+-------------------
+-> To add a single node, write : "node-name"
+-> To add multiple nodes, write: "childName baseName"
+-> To add new link, write      : "existingChildName existingBaseName"
+              OR               : one of these two nodes can also be totally new.
+(Note: Name of a node should not contain any whitespaces!)
+
+-> Exit: When you're finished, just press another enter!
+
+Add : turret bombs
+markedUsableAs = true. For node = turret
+markedUsableAs = true. For node = tank
+markedUsableAs = true. For node = tankSoldier1
+markedUsableAs = true. For node = tankSoldier2
+markedUsableAs = true. For node = tankSoldier3
+Add : 
+InputManager: getBaseAndChildFrom-> line == ""!
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = g
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+       Graph        
+-------------------
+Plotting current structure..
+
+
+###################################..
+#
+#  Nodes without any baseNode = { "a" "ore" "oreSMU" "bombs"  }
+#
+###################################..
+
+
+--------- Structure of "bombs" --------- 
+||bombs (usable):
+     <-handgun (usable):
+          <-tank (usable):
+               <-tankSoldier1 (usable)
+               <-tankSoldier2 (usable)
+               <-tankSoldier3 (usable)
+     <-turret (usable):
+          <-tank (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "oreSMU" --------- 
+||oreSMU (usable):
+     <-bulletsSMU (usable):
+          <-handgunSMU (usable)
+          <-turretSMU (usable)
+     <-bombsSMU (usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "ore" --------- 
+||ore (usable):
+     <-bullets (usable):
+          <-handgun (usable):
+               <-tank (usable):
+                    <-tankSoldier1 (usable)
+                    <-tankSoldier2 (usable)
+                    <-tankSoldier3 (usable)
+
+--------- ----------------- --------- 
+
+
+
+--------- Structure of "a" --------- 
+||a (usable):
+     <-b (usable):
+          <-c (usable)
+          <-d (usable):
+               <-e (usable):
+                    <-f (usable)
+                    <-g (usable)
+                    <-h (usable)
+                    <-i (usable)
+               <-j (usable)
+     <-k (usable):
+          <-j (usable) ~link~
+     <-l (usable):
+          <-j (usable) ~link~
+     <-m (usable):
+          <-n (usable):
+               <-i (usable) ~link~
+
+--------- ----------------- --------- 
+
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = i
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+    Information   
+-------------------
+Search for a node named = turret
+
+-------------------
+        INFO       
+-------------------
+Object Name: "turret", Type: "Node",
+Base Nodes: 1, ( bombs )
+Child Nodes: 1, ( tank )
+Relies on Nodes: 2, ( bombs bombs )
+Usable: 1
+
+
+-------------------
+      Commands     
+-------------------
+-> q: quit
+-> d: delete a node
+-> a: add a node or link
+-> g: plot graph of current structure
+-> i: informations about a node
+-> s: save current graph to resource.txt file
+Input = q
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------
+       Quit        
+-------------------
+Deleting all nodes..
+Good Bye!
+
+deleted Node at: [0x7fa2ac500580]; Updated count = 27
+deleted Node at: [0x7fa2ac402c50]; Updated count = 26
+deleted Node at: [0x7fa2ac5004f0]; Updated count = 25
+deleted Node at: [0x7fa2ac500480]; Updated count = 24
+deleted Node at: [0x7fa2ac402cf0]; Updated count = 23
+deleted Node at: [0x7fa2ac500630]; Updated count = 22
+deleted Node at: [0x7fa2ac403170]; Updated count = 21
+deleted Node at: [0x7fa2ac403090]; Updated count = 20
+deleted Node at: [0x7fa2ac403100]; Updated count = 19
+deleted Node at: [0x7fa2ac402fa0]; Updated count = 18
+deleted Node at: [0x7fa2ac402f30]; Updated count = 17
+deleted Node at: [0x7fa2ac500770]; Updated count = 16
+deleted Node at: [0x7fa2ac402de0]; Updated count = 15
+deleted Node at: [0x7fa2ac402e50]; Updated count = 14
+deleted Node at: [0x7fa2ac402ad0]; Updated count = 13
+deleted Node at: [0x7fa2ac5002a0]; Updated count = 12
+deleted Node at: [0x7fa2ac402720]; Updated count = 11
+deleted Node at: [0x7fa2ac402910]; Updated count = 10
+deleted Node at: [0x7fa2ac500210]; Updated count = 9
+deleted Node at: [0x7fa2ac5001a0]; Updated count = 8
+deleted Node at: [0x7fa2ac500410]; Updated count = 7
+deleted Node at: [0x7fa2ac402b50]; Updated count = 6
+deleted Node at: [0x7fa2ac500370]; Updated count = 5
+deleted Node at: [0x7fa2ac402990]; Updated count = 4
+deleted Node at: [0x7fa2ac402870]; Updated count = 3
+deleted Node at: [0x7fa2ac4027c0]; Updated count = 2
+deleted Node at: [0x7fa2ac500070]; Updated count = 1
+deleted Node at: [0x7fa2ac500000]; Updated count = 0
+172-10-20-68:Assignment 1 neesarg$ 
