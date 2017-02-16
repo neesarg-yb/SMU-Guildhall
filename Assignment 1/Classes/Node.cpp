@@ -282,7 +282,7 @@ static int totalNodesConstructed;
       for(int i=0; i<totalReliesOnNodes; i++) {
         // Search for a node name in vector of Node*
           if( searchNodeNamedIsPresentAsUsableInItsBaseNodes(this->reliesOnNodes.at(i)) == false) {
-              cout<<"Node: "<<name<<" will not be usable, because of it baseNode: "<<this->reliesOnNodes.at(i)<<endl;
+              // cout<<"Node: "<<name<<" will not be usable, because of it baseNode: "<<this->reliesOnNodes.at(i)<<endl;
               allReliesOnNodesPresentAsUsable = false;
               break;
           }
@@ -330,7 +330,7 @@ static int totalNodesConstructed;
           Node *bcN = bN->childNode.at(j);
 
           if(bcN->name == this->name) {
-            cout<<"Found its entry as childNode"<<endl;
+            // cout<<"Found its entry as childNode"<<endl;
             // Remove its reference
             bN->childNode.erase(bN->childNode.begin() + j);
             break;
@@ -351,7 +351,7 @@ static int totalNodesConstructed;
       for(int i=0; i<childNode.size(); i++) {
         // current childNode
         Node* cNode = childNode.at(i);
-        cout<<"deleteThisNode(): In childNode "<<cNode->name<<endl;
+        // cout<<"deleteThisNode(): In childNode "<<cNode->name<<endl;
 
         // Find baseNode's entry from currentChildNode
         // N Remove it
@@ -361,7 +361,7 @@ static int totalNodesConstructed;
 
           // Found entry
           if(cbNode->name == this->name) {
-            cout<<"deleteThisNode(): Found entry of baseNode, deleting it.."<<endl;
+            // cout<<"deleteThisNode(): Found entry of baseNode, deleting it.."<<endl;
             // Remove its reference
             cNode->baseNode.erase(cNode->baseNode.begin() + e);
             break;
@@ -393,7 +393,7 @@ static int totalNodesConstructed;
       if(isUsable == false) {
         // Mark recursivly all false
         this->usable = false;
-        cout<<"markedUsableAs = false. For node = "<<this->name<<endl;
+        // cout<<"markedUsableAs = false. For node = "<<this->name<<endl;
 
         for(int i=0; i<childNode.size(); i++) {
           childNode.at(i)->markUsableAs(false);
@@ -404,7 +404,7 @@ static int totalNodesConstructed;
         if(this->isUsable() == true) {
           // It has all reliesOnNodes baseNode(s)
           this->usable = true;
-          cout<<"markedUsableAs = true. For node = "<<this->name<<endl;
+          // cout<<"markedUsableAs = true. For node = "<<this->name<<endl;
 
           for(int i=0; i<childNode.size(); i++) {
             childNode.at(i)->markUsableAs(true);
@@ -413,7 +413,7 @@ static int totalNodesConstructed;
           } else {
             // It does not have all reliesOn baseNode(s)
             // It should be false already
-            cout<<"Not markedUsableAs = true. For node = "<<this->name<<endl<<"  ( It does not have all reliesOn baseNode(s)! )"<<endl;;
+            // cout<<"Node "<<this->name<<"is not usable!"endl<<"  ( It does not have all reliesOn baseNode(s)! )"<<endl;;
           }
         }
     }

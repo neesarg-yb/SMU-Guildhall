@@ -149,7 +149,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
                 } else {
                   // baseNodeReference is already in reliesOnNodes
                   // Do not add it again
-                  cout<<"ResourceManager: baseNode already present in reliesOnNodes!"<<endl;
+                  // cout<<"ResourceManager: baseNode already present in reliesOnNodes!"<<endl;
                 }
                 if(childNodeReference->isUsable() == true) {
                   childNodeReference->markUsableAs(true);
@@ -218,7 +218,7 @@ void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, str
             } else {
               // baseNodeReference is already in reliesOnNodes
               // Do not add it again
-              cout<<"ResourceManager: baseNode already present in reliesOnNodes!"<<endl;
+              // cout<<"ResourceManager: baseNode already present in reliesOnNodes!"<<endl;
             }
 
             if(childNodeReference->isUsable() == true) {
@@ -254,15 +254,6 @@ Node* ResourceManager::searchForNode(string nodeName) {
   return result;
 }
 
-
-void ResourceManager::saveCurrentStructureInResourcesFile() {
-  ofstream myfile;
-  myfile.open ("example.txt");
-  myfile << "Writing this to a file.\n";
-  myfile.close();
-
-}
-
 void ResourceManager::deleteNodeNamed(string nodeName) {
   // get link to thatNode
   Node *gotNode = searchForNode(nodeName);
@@ -277,13 +268,13 @@ void ResourceManager::deleteNodeNamed(string nodeName) {
         if(independentBaseNodes.at(i)->name == gotNode->name) {
           // Found its entry; remove it
           independentBaseNodes.erase(independentBaseNodes.begin() + i);
-          cout<<"Entry of: "<<gotNode->name<<" erased from independentBaseNodes."<<endl;
+          // cout<<"Entry of: "<<gotNode->name<<" erased from independentBaseNodes."<<endl;
           break;
         }
       }
     }
 
-    cout<<"ResourceManager: node found, passing it to deleteThisNode()!"<<endl;
+    // cout<<"ResourceManager: node found, passing it to deleteThisNode()!"<<endl;
     vector<Node *> *leftChildNode = gotNode->deleteThisNode();
     // Add them to independentBaseNodes
     for(int i=0; i<leftChildNode->size(); i++) {
