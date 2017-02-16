@@ -20,14 +20,11 @@
 
 using namespace std;
 
-// It is there because of TEST--CODE
-// Most probably I'll delete this function in end
+// It plots linked graph of all the nodes present in vector baseNodes
 void displayStructureOfNodesInVector(vector<Node *> baseNodes);
 
 // Just a silly function to clear console using endl(s) :p
 void clearConsole();
-
-void flush_stream(std::istream& stream);
 
 
 int main(int argc, char const *argv[]) {
@@ -227,10 +224,4 @@ void clearConsole() {
   for(int i=0; i<60; i++) {
     cout<<endl;
   }
-}
-
-void flush_stream(std::istream& stream)
-{
-    stream.clear();
-    stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
