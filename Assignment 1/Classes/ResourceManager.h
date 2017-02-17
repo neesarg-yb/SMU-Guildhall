@@ -16,7 +16,8 @@ class ResourceManager {
   public:
     ResourceManager();
 
-    // Don't forget to make it private, later on
+    // Lists all nodes that do not have any baseNode(s) currently
+    // This vector is like door to every node structures
     vector<Node *> independentBaseNodes;
 
     // Deletes all childern of nodes as well as it self
@@ -25,11 +26,14 @@ class ResourceManager {
 
     // Use DFS graph seach algorithm of Node class, for every independentBaseNodes
     // It will be used before addition of any Node into the system
-    // To keep the whole structure without any redundancy
+    // To keep the whole structure without any redundancies
     Node* searchForNode(string nodeName);
 
-    // It will add base <--- child in the system
-    // Will also ensure that only single copy of any Node is being included!
+    // It will add "base <-- child" in the system
+    // Will also ensure that only single copy of any Node is being added!
+    // Will also check and set childNode's usability
+        // There are several CASEs according to the reference of childNode & baseNode
+        // All are handled nicely in the function implementation, with comments
     void addBaseAndChildNodesFromStringsToGame(string childName, string baseName);
 
     // Deletes a node. Also,

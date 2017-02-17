@@ -67,10 +67,11 @@ pair<string, string> InputManager::getBaseAndChildFrom(string line) {
       // cout<<"!!! WARNING: getBaseAndChildFrom-> blankAt == 0.. !!!\n";
     }
   } else {
-    // Mostly it won't visit it, ever!
     // Line is empty
+    // It won't visit in here, from main.cpp
+    // Although, from console input, flow can came to here
 
-    cout<<"InputManager: getBaseAndChildFrom-> line == \"\"!\n";
+    cout<<"InputManager: got empty line!\n";
   }
 
   return baseChildPair;

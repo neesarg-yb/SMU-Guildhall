@@ -28,8 +28,8 @@ void ResourceManager::deleteAllIndependentBaseNodesSafely(){
 
 
 void ResourceManager::addBaseAndChildNodesFromStringsToGame(string baseName, string childName) {
-  // Input must be like "node1 "; instead of "node1"
-  // Correct it
+  // User must have written "node1 " instead of "node1"
+  // Correct it: from <baseName><space> to <NULL><space><baseName> notation
   if(baseName == "") {
     baseName = childName;
     childName = "NULL";

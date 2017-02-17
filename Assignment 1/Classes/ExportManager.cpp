@@ -27,13 +27,14 @@ void ExportManager::saveToFile() {
 
   // For every independentBaseNodes
   for(int i=0; i<independentBaseNodes->size(); i++) {
-    // Do the main task!
+    // traverse and construct notations..
     DFSTraverseUtil(independentBaseNodes->at(i), constructedNotations, visited);
   }
   delete visited;
 
   // Export constructedNotations according to user
-  char choice = '0';
+    // Used char insted of int. To avoid out-of-scope input situation(due to possibility of misentered input of keybord's characters)..
+    char choice = '0';
   cout<<"1: Save to resource.txt file"<<endl;
   cout<<"2: Save to new file"<<endl;
   cout<<"\n(Warning: Because of the notation style, \"not-usable\" nodes will be saved as \"usable\"..)"<<endl;

@@ -12,18 +12,18 @@ using namespace std;
 
 class Node {
   public:
-    string name;
-    bool usable;
+    string name; // name of the node
+    bool usable; // true; if all reliesOnNodes are present in baseNode(as usable state) vector
 
     // Parent Node
     vector<Node *> baseNode;
     // Child Node
     vector<Node *> childNode;
-    // Relies On
+    // List of all the baseNode(s) on which current node relies (to be usable)
     vector<string> reliesOnNodes;
 
-    Node();  // constructer
-    ~Node(); // Deconstructer
+    Node();  // constructer; to keep track of no. of node(s) created
+    ~Node(); // Deconstructer; to keep track of no. of node(s) deleted
 
     // Add childNode to aNode
     void addChildNode(Node * aNode);
@@ -32,10 +32,10 @@ class Node {
     // Works in the "deepest first" manner
     void deleteAllChildNodes();
 
-    // Print informations about that node: name, type, baseNode & childNodes
+    // Print informations about that node: name, type, baseNode, childNodes, reliesOnNodes & usability
     void description();
 
-    // Creates commandline graph
+    // Creates commandline graph of all childNodes and links of it
     void makeGraphOfThis();
 
     // Finds node
@@ -49,19 +49,20 @@ class Node {
 
     // It deletes current node
     // Also marks its childNode(s) as not-usable
-    // If childNode does not have anyother baseNode,
-    // returns vector<Node *> of childNode(s) who does not have any Parents
+    // If childNode does not have any other baseNode,
+        // returns vector<Node *> of childNode(s) who does not have any Parents
+        // So that childNode(s) can be added to indepndentBaseNodes vector of theResourceManager
     vector<Node *> * deleteThisNode();
 
-    // Marks a node and all its childNode(s) as suggested by isUsable
-    // Recursively!
+    // Marks a node and all its childNode(s) as suggested by isUsable bool
+    // Works recursively!
     // If user suggested to mark as usable = true,
         // This function will ensure its usability before marking it as a true
     void markUsableAs(bool isUsable);
 
     // Search for a name in vector of strings
-    // This function is created to call before vector.push_back operations of reliesOnNodes
-    // When childNode is existing one, we need to cross-check using this function
+    // This function is created to call before vector.push_back operations of reliesOnNodes; will help to avoid duplicate entries
+    // When childNode is existing one, we need to cross-check its usability using this function
     bool searchNameInVectorOfString(string nodeName, vector<string> v);
 
     // Search for a name of current Node in vector of strings
@@ -79,9 +80,9 @@ class Node {
     void makeGraphOfThis(Node * aNode, int currentLevel, vector<string> *alreadyPlotted);
 
 
-    // First of all, removes all references of the currentChild
+    // First of all, removes all references of the currentChild from its childNode(s)
     // After that, delete currentChild node itself
-    // Note: Situation of multiple references is created because of multiple baseNode(s) of a single childNode
+    // Note: Situation of multiple references is created because of links to multiple baseNode(s) of a single childNode
     void deleteItSafely(Node * currentChild);
 
     // Helper function of findNodeNamedUsingDFS()

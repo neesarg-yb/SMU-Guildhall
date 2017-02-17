@@ -4,9 +4,9 @@
 /*
  *
  *  || Makefile commands ||
- *  make: will compile whole project and creates executable "output" file
- *  make clean: will clean created output and .o files
- *  make keepJustOutput: will clean all .o files, not the output file.
+ *   -> make: will compile whole project and creates executable "output" file
+ *   -> make clean: will clean created output and .o files
+ *   -> make keepJustOutput: will clean all .o files, but not the output file.
  *
  */
 #include "Classes/Node.h"
@@ -21,10 +21,10 @@
 
 using namespace std;
 
-// It plots linked graph of all the nodes present in vector baseNodes
+// It plots(on console) linked graph of all the nodes present in vector baseNodes
 void displayStructureOfNodesInVector(vector<Node *> baseNodes);
 
-// Just a silly function to clear console using endl(s) :p
+// It clears the console using endl(s) :p
 void clearConsole();
 
 
@@ -35,22 +35,23 @@ int main(int argc, char const *argv[]) {
   // Stting up file InputManager
   InputManager fileInput = InputManager("resource.txt");
 
-  // Read txt file till end
+  // Read .txt file till the end or '\n'
   string line = fileInput.readFileLineByLine();
   while (line != ""){
-    // get input pair from file
+    // get baseChild pair from file to use it as input
     pair<string, string> baseAndChild = fileInput.getBaseAndChildFrom(line);
-    // add that pair via theResourceManager
+    // add that pair in the system via theResourceManager
     theResourceManager.addBaseAndChildNodesFromStringsToGame(baseAndChild.first, baseAndChild.second);
 
     // read next line
     line = fileInput.readFileLineByLine();
   }
 
-  // Initalize theExportManager
+  // Initalize theExportManager; Later on, it can be used to save whole node structure in file.
   ExportManager theExportManager = ExportManager(&theResourceManager.independentBaseNodes);
 
   // Display structure 1st time
+  cout<<"\n\n\n\n\n";
   displayStructureOfNodesInVector(theResourceManager.independentBaseNodes);
 
   /////////////////////////
@@ -193,7 +194,7 @@ int main(int argc, char const *argv[]) {
   //  Input Loop - ends  //
   /////////////////////////
 
-  // proceed to quit, delete everything!
+  // proceed to quit, deletes everything!
   theResourceManager.deleteAllIndependentBaseNodesSafely();
 
   return 0;
@@ -214,7 +215,7 @@ void displayStructureOfNodesInVector(vector<Node *> baseNodes) {
 
   // For all independentBaseNodes in given vector
   for(int indN = baseNodes.size(); indN >=1; indN--) {
-
+    // Plot its graph, too
     cout<<"\n\n--------- Structure of \""<<baseNodes[indN-1]->name<<"\" --------- "<<endl;
     baseNodes[indN-1]->makeGraphOfThis();
     cout<<"\n--------- ----------------- --------- \n"<<endl;
