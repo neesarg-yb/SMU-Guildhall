@@ -3,6 +3,8 @@
 //  Copyright (c) 2017 Neesarg Banglawala. All rights reserved.
 #include<iostream>
 #include<fstream>
+#include<utility>
+#include<vector>
 
 using namespace std;
 
@@ -21,6 +23,12 @@ public:
   ~Node();
 };
 
+enum operationType {
+  COMPRESS,
+  EXPAND,
+  FAULT,
+};
+
 bool readNextByte(char &byte, ifstream &file);
 bool readNextInt(int &number, ifstream &file);
 void readBinaryTree(Node *&base, ifstream &file);
@@ -36,35 +44,107 @@ static int nodeCount = 0;
   /**********************************/
  /********** MAIN FUNCTION *********/
 /**********************************/
-int main() {
-  char byte;
-  Node *root = NULL;
+int main(int argc, char* argv[]) {
+  operationType operation = operationType::FAULT;
+  string inFile, outFile;
 
-  ifstream fin ("input.txt", ios::binary);
+  // Working with commandline arguments
+  if(argc == 4) {
+    // Setting up arguments
+    if( (string)argv[1] == "-c" ) {
+      operation = operationType::COMPRESS;
+      inFile = argv[2];
+      outFile = argv[3];
+    } else if( (string)argv[1] == "-e" ) {
+      operation = operationType::EXPAND;
+      inFile = argv[2];
+      outFile = argv[3];
+    }
+  }
 
-  readBinaryTree(root, fin);
-  readNextByte(byte, fin);
-  if(byte == '-') {
-    cout<<"NOTE: Tree is constructed successfully!"<<endl;
+  // If wrong command, tell user to use proper instructions
+  if(operation == operationType::FAULT) {
+    cout<<"ERROR: Enter proper arguments!"<<endl;
+    cout<<" -> To compress: \"./a.out -c inputFileName outputFileName\""<<endl;
+    cout<<" -> To expand  : \"./a.out -e inputFileName outputFileName\""<<endl;
+    return 1;
   } else {
-    cout<<"ERROR: After tree instructions, end flag not found!"<<endl;
+    cout<<"inputFile: "<<inFile<<endl;
+    cout<<"outputFile: "<<outFile<<endl;
+  }
+
+  // Start operating
+  cout<<"\n---------------------";
+  cout<<"\n Operating on file..";
+  cout<<"\n---------------------"<<endl;
+
+  // setup file streams
+  ifstream fin(inFile, ios::binary);
+  if(!fin.good()) {
+    cout<<"ERROR: can not open \""<<inFile<<"\" file.."<<endl;
     return 1;
   }
+
+  ofstream fout(outFile, ios::binary);
+  if(!fout.good()) {
+    cout<<"ERROR: can not open \""<<outFile<<"\" file.."<<endl;
+    return 1;
+  }
+
+  if(operation == operationType::COMPRESS) {
+    // COMPRESSION
+    // Frequency of each byte
+    int charFreq[256] = {0};
+
+    // Calculate frequency
+    char gotChar;
+    while(readNextByte(gotChar, fin) == true) {
+      charFreq[gotChar+128]++;  // +128 to convert range from [-128, 127] to [0, 256]
+    }
+
+
+    // Print frequency
+    for(int i=0; i<256; i++) {
+      if(charFreq[i] > 0) cout<<i<<" "<<(char)(i-128)<<": "<<charFreq[i]<<endl;
+    }
+
+
+
+  } else if(operation == operationType::EXPAND) {
+    // EXPANSION
+
+  }
+
+
   fin.close();
-
-  cout<<endl<<"Tree(at 90 degree):"<<endl;
-  printBinaryTree(root, 0);
-
-  ofstream fout ("output.nzp", ios::binary | ios::trunc);
-  writeBinaryTree(root, fout);
-  byte='-';
-  writeNextByte(byte, fout);
   fout.close();
-
-  deleteBinaryTree(root);
-
   return 0;
 }
+// char byte;
+// Node *root = NULL;
+//
+// ifstream fin ("input.txt", ios::binary);
+//
+// readBinaryTree(root, fin);
+// readNextByte(byte, fin);
+// if(byte == '-') {
+//   cout<<"NOTE: Tree is constructed successfully!"<<endl;
+// } else {
+//   cout<<"ERROR: After tree instructions, end flag not found!"<<endl;
+//   return 1;
+// }
+// fin.close();
+//
+// cout<<endl<<"Tree(at 90 degree):"<<endl;
+// printBinaryTree(root, 0);
+//
+// ofstream fout ("output.nzp", ios::binary | ios::trunc);
+// writeBinaryTree(root, fout);
+// byte='-';
+// writeNextByte(byte, fout);
+// fout.close();
+//
+// deleteBinaryTree(root);
 
 
 
