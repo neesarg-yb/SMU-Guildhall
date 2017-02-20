@@ -5,6 +5,7 @@
 #include<fstream>
 #include<utility>
 #include<vector>
+#include<map>
 
 using namespace std;
 
@@ -30,12 +31,17 @@ enum operationType {
 };
 
 bool readNextByte(char &byte, ifstream &file);
-bool readNextInt(int &number, ifstream &file);
+bool readNextUnsignedInt(unsigned int &number, ifstream &file);
 void readBinaryTree(Node *&base, ifstream &file);
 void writeNextByte(char &byte, ofstream &fout);
+void writeNextUnsignedInt(unsigned int &number, ofstream &file);
 void writeBinaryTree(Node *&root, ofstream &fout);
 void printBinaryTree(Node *root, int level);
+void createBinaryTree(Node *&root, vector< pair<Node*, int> > &leaves);
 void deleteBinaryTree(Node *root);
+bool compareLeaves(const pair<Node*, int>&i, const pair<Node*, int>&j);
+void generateCharBitCodePairFromTree(Node *&root, map<char, string> &bitCodes, string currentBitSequence);
+void writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile);
 
 static int nodeCount = 0;
 
@@ -96,6 +102,7 @@ int main(int argc, char* argv[]) {
     // Frequency of each byte
     int charFreq[256] = {0};
 
+
     // Calculate frequency
     char gotChar;
     while(readNextByte(gotChar, fin) == true) {
@@ -103,15 +110,72 @@ int main(int argc, char* argv[]) {
     }
 
 
-    // Print frequency
+    // Store all the leaf nodes
+    vector< pair<Node*, int> > leaves;
+    // total number of bytes to write (as data)
+    unsigned int totalBytes = 0;
+    // Create a leaves vector & calculate total data bytes to write
     for(int i=0; i<256; i++) {
-      if(charFreq[i] > 0) cout<<i<<" "<<(char)(i-128)<<": "<<charFreq[i]<<endl;
+      if(charFreq[i] > 0) {
+        Node * node = new Node((char)(i-128));
+        int frequency = charFreq[i];
+        totalBytes += frequency;
+        leaves.push_back( make_pair(node, frequency) );
+      }
     }
 
+
+    // Create binary tree to generate unique bitCodes for each byte
+    Node *treeRoot;
+    createBinaryTree(treeRoot, leaves);
+    // // Print it
+    // cout<<"Tree: "<<endl;
+    // printBinaryTree(treeRoot, 0);
+    // cout<<endl;
+
+
+    // Get map of <each character, its bitCode>
+    map<char, string> bitCodes;
+    string tempString = "";
+    generateCharBitCodePairFromTree(treeRoot, bitCodes, tempString);
+
+
+    // Serialise binary tree
+    writeBinaryTree(treeRoot, fout);
+    // Write '-' to signal that tree serialisation instructions are finished
+    fout.put('-');
+
+
+    // Write totalBytes in output file
+    writeNextUnsignedInt(totalBytes, fout);
+    cout<<"Total bytes = "<<totalBytes<<endl;
+
+
+    // Display Bitcodes
+    cout<<"\nBitcodes:"<<endl;
+    for(auto elem : bitCodes) {
+      std::cout << elem.first << "->" << elem.second<<endl;
+    }
+
+    getchar();
+
+    // write in outputFile to compress
+    writeCompressedFileWithBitcodeMap(fin, bitCodes, fout);
+
+    deleteBinaryTree(treeRoot);
 
 
   } else if(operation == operationType::EXPAND) {
     // EXPANSION
+    Node *rootTree;
+    readBinaryTree(rootTree, fin);
+    cout<<"\nTree created:"<<endl;
+    printBinaryTree(rootTree, 0);
+    char next;
+    cout<<endl<<(char)fin.get()<<endl;
+    unsigned int data = 0;
+    if(readNextUnsignedInt(data, fin)) cout<<"Total Bytes = "<<data<<endl;
+    deleteBinaryTree(rootTree);
 
   }
 
@@ -120,31 +184,6 @@ int main(int argc, char* argv[]) {
   fout.close();
   return 0;
 }
-// char byte;
-// Node *root = NULL;
-//
-// ifstream fin ("input.txt", ios::binary);
-//
-// readBinaryTree(root, fin);
-// readNextByte(byte, fin);
-// if(byte == '-') {
-//   cout<<"NOTE: Tree is constructed successfully!"<<endl;
-// } else {
-//   cout<<"ERROR: After tree instructions, end flag not found!"<<endl;
-//   return 1;
-// }
-// fin.close();
-//
-// cout<<endl<<"Tree(at 90 degree):"<<endl;
-// printBinaryTree(root, 0);
-//
-// ofstream fout ("output.nzp", ios::binary | ios::trunc);
-// writeBinaryTree(root, fout);
-// byte='-';
-// writeNextByte(byte, fout);
-// fout.close();
-//
-// deleteBinaryTree(root);
 
 
 
@@ -153,6 +192,8 @@ int main(int argc, char* argv[]) {
 /**********************************/
 Node::Node(char sym) {
   symbol = sym;
+  left = NULL;
+  right = NULL;
 
   nodeCount++;
   cout<<"+ Node: new created. Updated count = "<<nodeCount<<endl;
@@ -186,8 +227,8 @@ bool readNextByte(char &byte, ifstream &file) {
   }
 }
 
-// read next integer from file; return cases are same as readNextByte
-bool readNextInt(int &number, ifstream &file) {
+// read next unsigned integer from file; return cases are same as readNextByte
+bool readNextUnsignedInt(unsigned int &number, ifstream &file) {
   if(file.is_open() && file.good()) {
     file.read ((char *) &number, sizeof(number));
     return true;
@@ -206,6 +247,16 @@ void writeNextByte(char &byte, ofstream &fout) {
     }
   } else {
     cout<<"ERROR: writeNextByte failed, file is closed!"<<endl;
+  }
+}
+
+// write given unsigned int to the file
+// Note: MAX number can be 4294967295!!
+void writeNextUnsignedInt(unsigned int &number, ofstream &file) {
+  if(file.is_open() && file.good()) {
+    file.write ((char *) &number, sizeof(number));
+  } else {
+    cout<<"Can't read next integer"<<endl;
   }
 }
 
@@ -286,4 +337,71 @@ void printBinaryTree(Node *root, int level) {
   // Print node's symbol
   cout<<root->symbol<<endl;
   printBinaryTree(root->left, level);
+}
+
+void createBinaryTree(Node *&root, vector< pair<Node*, int> > &leaves) {
+  if(leaves.size() == 1) {
+    // Return the tree
+
+    cout<<"Tree is created, returning it.."<<endl;
+    // Vector have just one node, operation done!
+    // It is the root node of tree
+    root = leaves.at(0).first;
+    return;
+  } else if(leaves.size() > 1) {
+    // Create the tree
+
+    // Sort the vector: low freq -> high freq
+    sort(leaves.begin(), leaves.end(), compareLeaves);
+
+    // get reference of two lowest frequency having pair from vector
+    pair<Node*, int> first, second;
+    first = leaves.at(0);
+    second = leaves.at(1);
+
+    // remove that two pairs from vector
+    leaves.erase(leaves.begin() + 0);
+    leaves.erase(leaves.begin() + 0);
+
+    // create new node & combined frequency
+    Node *newComb = new Node('@');
+    newComb->left = first.first;
+    newComb->right = second.first;
+    int newFrequency = first.second + second.second;
+
+    // create new pair to add to leaves vector
+    pair<Node *, int> newNodeFreqPair = make_pair(newComb, newFrequency);
+
+    // Add it to vector
+    leaves.push_back(newNodeFreqPair);
+
+    // Call recursion
+    createBinaryTree(root, leaves);
+  } else {
+    // Vector is empty
+    cout<<"ERROR: unexpected empty vector!!"<<endl;
+  }
+}
+
+// Helper function to sort
+bool compareLeaves(const pair<Node*, int>&i, const pair<Node*, int>&j) {
+    return i.second < j.second;
+}
+
+void generateCharBitCodePairFromTree(Node *&root, map<char, string> &bitCodes, string currentBitSequence) {
+  if(root->left == NULL && root->right == NULL) {
+    // Reached to leaf node
+    bitCodes.insert( pair<char, string>(root->symbol, currentBitSequence) );
+
+    return;
+  }
+
+  generateCharBitCodePairFromTree(root->left, bitCodes, currentBitSequence + '1');
+  // currentBitSequence.pop_back();
+  generateCharBitCodePairFromTree(root->right, bitCodes, currentBitSequence + '0');
+  // currentBitSequence.pop_back();
+}
+
+void writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile) {
+
 }
