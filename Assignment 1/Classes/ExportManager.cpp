@@ -49,7 +49,7 @@ void ExportManager::saveToFile() {
   switch (choice) {
     case '1':
       // Save to resource.txt
-      myfile.open ("resource.txt");
+      myfile.open ("resource.txt", ios::trunc);
 
       // For every constructedNotations
       for(int i=0; i<constructedNotations->size(); i++) {
