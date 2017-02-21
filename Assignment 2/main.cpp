@@ -30,6 +30,7 @@ enum operationType {
   FAULT,
 };
 
+void printBitsOfByte(char byte);
 bool readNextByte(char &byte, ifstream &file);
 bool readNextUnsignedInt(unsigned int &number, ifstream &file);
 void readBinaryTree(Node *&base, ifstream &file);
@@ -41,7 +42,7 @@ void createBinaryTree(Node *&root, vector< pair<Node*, int> > &leaves);
 void deleteBinaryTree(Node *root);
 bool compareLeaves(const pair<Node*, int>&i, const pair<Node*, int>&j);
 void generateCharBitCodePairFromTree(Node *&root, map<char, string> &bitCodes, string currentBitSequence);
-void writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile);
+unsigned int writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile);
 
 static int nodeCount = 0;
 
@@ -105,7 +106,9 @@ int main(int argc, char* argv[]) {
 
     // Calculate frequency
     char gotChar;
-    while(readNextByte(gotChar, fin) == true) {
+    while(readNextByte(gotChar, fin) && !fin.eof()) { //FIXED: EOF ERROR!!
+      // cout<<"\ngotChar(raw) = "<<(int)gotChar<<endl;
+      //   cout<<"gotChar(+128) = "<<((int)gotChar)+128<<endl;
       charFreq[gotChar+128]++;  // +128 to convert range from [-128, 127] to [0, 256]
     }
 
@@ -119,6 +122,7 @@ int main(int argc, char* argv[]) {
       if(charFreq[i] > 0) {
         Node * node = new Node((char)(i-128));
         int frequency = charFreq[i];
+        cout<<"F: "<<i<<" = "<<frequency<<endl;
         totalBytes += frequency;
         leaves.push_back( make_pair(node, frequency) );
       }
@@ -149,6 +153,8 @@ int main(int argc, char* argv[]) {
     // Write totalBytes in output file
     writeNextUnsignedInt(totalBytes, fout);
     cout<<"Total bytes = "<<totalBytes<<endl;
+    // Write '-' to signal that compressed code starts from here
+    fout.put('-');
 
 
     // Display Bitcodes
@@ -157,10 +163,20 @@ int main(int argc, char* argv[]) {
       std::cout << elem.first << "->" << elem.second<<endl;
     }
 
-    getchar();
+    // reset fin to start of file
+    fin.clear();
+    fin.seekg (0, ios::beg);
 
+
+    unsigned int compressedTotalBytes = 0;
     // write in outputFile to compress
-    writeCompressedFileWithBitcodeMap(fin, bitCodes, fout);
+    compressedTotalBytes = writeCompressedFileWithBitcodeMap(fin, bitCodes, fout);
+    // Check whether all data is compressed or not
+    if(compressedTotalBytes == totalBytes) {
+      cout<<"successfully compressed all data!"<<endl;
+    } else {
+      cout<<"\nERROR: Operation failed!"<<endl<<"Only "<<compressedTotalBytes<<" out of "<<totalBytes<<" bytes got compressed!"<<endl;
+    }
 
     deleteBinaryTree(treeRoot);
 
@@ -175,6 +191,7 @@ int main(int argc, char* argv[]) {
     cout<<endl<<(char)fin.get()<<endl;
     unsigned int data = 0;
     if(readNextUnsignedInt(data, fin)) cout<<"Total Bytes = "<<data<<endl;
+    cout<<endl<<(char)fin.get()<<endl;
     deleteBinaryTree(rootTree);
 
   }
@@ -402,6 +419,70 @@ void generateCharBitCodePairFromTree(Node *&root, map<char, string> &bitCodes, s
   // currentBitSequence.pop_back();
 }
 
-void writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile) {
+unsigned int writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile) {
+  // Setup variables to use in this function
+  unsigned int totalCompressedBytes = 0;
+  char oneChar = 0;
+  char outChar = 0;
+  int counter = 0;
+  string bitSequence = "";
 
+  // Read every byte
+  while (readNextByte(oneChar, sourceFile) && !sourceFile.eof()) {
+    // Find its bitCode
+    map<char, string>::iterator it = bitCodes.find(oneChar);
+    if(it == bitCodes.end()) {
+      cout<<"ERROR: bitCode not found!! unexpected!"<<endl;
+      return totalCompressedBytes;
+    }
+    bitSequence = it->second;
+    cout<<"Code for \""<<oneChar<<"\" = "<<bitSequence;
+
+    // Operate for each bits of whole bitCode sequence
+    while (bitSequence.length() > 0) {
+      // Convert from (char) '1' to (bool/int) 1, & append to outChar
+      bool bit = ( bitSequence.at(0) == '1' ? 1 : 0);
+      outChar = (outChar << 1) | bit;
+      counter++;
+      bitSequence.erase(bitSequence.begin() + 0);
+
+      // If outChar have date of a whole byte
+      if(counter == 8) {
+        cout<<"\nByte to write out = ";
+        printBitsOfByte(outChar);
+        // write outChar in file and reset counter
+        writeNextByte(outChar, targetFile);
+        outChar = 0;
+        counter = 0;
+      }
+    }
+    cout<<endl;
+    // +1 to count of bytes processed
+    totalCompressedBytes++;
+  }
+
+  // Every fully generated outChar is written
+  // Write remaining bits, too.
+  if(counter > 0) {
+    // make new outChar out of remaining bits
+    cout<<"\nLeft bits = "<<counter<<endl;
+    outChar = (outChar << (8 - counter));
+
+    cout<<"Byte to write out = ";
+    printBitsOfByte(outChar);
+
+    // write outChar and reset counter
+    writeNextByte(outChar, targetFile);
+    outChar = 0;
+    counter = 0;
+  }
+  return totalCompressedBytes;
+}
+
+void printBitsOfByte(char byte) {
+  for(int i=7; i>=0; i--) {
+    bool bit = (byte >> i) & 1 ;
+    cout<<bit<<" ";
+  }
+  cout<<endl;
 }

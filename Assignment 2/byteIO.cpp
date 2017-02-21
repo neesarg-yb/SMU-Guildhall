@@ -26,42 +26,53 @@ void writeNextUnsignedInt(unsigned int &number, ofstream &file) {
 int main() {
   int byte[8] = {1,1,1,0,0,1,0,0};
 
-  // To write in file
-  ofstream fout("aByte", ios::binary);
-  if(!fout.good()) {
-    cout<<"ERROR: can not open file to write.."<<endl;
-    return 1;
-  }
-
-  char writeByte;
-  for(int i=0; i<8; i++) {
-    writeByte |= byte[i] << i;  // <char> |= <0 or 1> << <index of bit>
-  }
-  fout.put(writeByte);
-  unsigned int maxI = 4294967278;  // MAX is 4294967295
-  writeNextUnsignedInt(maxI, fout);
-
-
-  fout.close();
+  // // To write in file
+  // ofstream fout("aByte", ios::binary);
+  // if(!fout.good()) {
+  //   cout<<"ERROR: can not open file to write.."<<endl;
+  //   return 1;
+  // }
+  //
+  // char writeByte;
+  // for(int i=0; i<8; i++) {
+  //   writeByte |= byte[i] << i;  // <char> |= <0 or 1> << <index of bit>
+  // }
+  // fout.put(writeByte);
+  // unsigned int maxI = 4294967278;  // MAX is 4294967295
+  // writeNextUnsignedInt(maxI, fout);
+  //
+  //
+  // fout.close();
 
   // To read from file
-  ifstream fin("aByte", ios::binary);
-  if(!fin.good()) {
-    cout<<"ERROR: can not open file to read.."<<endl;
-    return 1;
-  }
-
+  ifstream fin("out.nbz", ios::binary);
+  unsigned int byteCount = 0;
   char readByte;
+
   fin.get(readByte);
-  for(int i=0; i<8; i++) {
-    bool bit = (readByte >> i) & 1 ;
-    cout<<bit<<" ";
-  }
-  cout<<endl;
+  do {
+
+    if(!fin.good()) {
+      cout<<"ERROR: can not open file to read.."<<endl;
+      return 1;
+    }
+
+    byteCount++;
+    cout<<"("<<byteCount<<") ";
+
+    cout<<(int)readByte<<" :";
+    for(int i=7; i>=0; i--) {
+      bool bit = (readByte >> i) & 1 ;
+      cout<<bit;
+    }
+    cout<<endl;
+
+    fin.get(readByte);
+  } while(!fin.eof());
 
 
-  unsigned int gotI = 0;
-  if (readNextUnsignedInt(gotI, fin)) cout<<"\nunsigned int = "<<gotI<<endl;
+  // unsigned int gotI = 0;
+  // if (readNextUnsignedInt(gotI, fin)) cout<<"\nunsigned int = "<<gotI<<endl;
 
   fin.close();
 
