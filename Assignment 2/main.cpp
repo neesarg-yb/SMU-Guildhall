@@ -43,6 +43,8 @@ void deleteBinaryTree(Node *root);
 bool compareLeaves(const pair<Node*, int>&i, const pair<Node*, int>&j);
 void generateCharBitCodePairFromTree(Node *&root, map<char, string> &bitCodes, string currentBitSequence);
 unsigned int writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile);
+void generateCharodePairFromTree(Node *&root, map<string, char> &charCodes, string currentBitSequence);
+unsigned int writeExpandedFileWithCharcodeMapUptoBytes(ifstream &sourceFile, map<string, char> &charCodes, ofstream &targetFile, unsigned int bytesToExpand);
 
 static int nodeCount = 0;
 
@@ -173,7 +175,7 @@ int main(int argc, char* argv[]) {
     compressedTotalBytes = writeCompressedFileWithBitcodeMap(fin, bitCodes, fout);
     // Check whether all data is compressed or not
     if(compressedTotalBytes == totalBytes) {
-      cout<<"successfully compressed all data!"<<endl;
+      cout<<"successfully compressed all data!\n"<<endl;
     } else {
       cout<<"\nERROR: Operation failed!"<<endl<<"Only "<<compressedTotalBytes<<" out of "<<totalBytes<<" bytes got compressed!"<<endl;
     }
@@ -183,15 +185,58 @@ int main(int argc, char* argv[]) {
 
   } else if(operation == operationType::EXPAND) {
     // EXPANSION
+
+    // Deserialise tree of bitCodes
     Node *rootTree;
     readBinaryTree(rootTree, fin);
     cout<<"\nTree created:"<<endl;
     printBinaryTree(rootTree, 0);
+
+    // generate charCodes, to use in expansion process
+    map<string, char> charCodes;
+    string currentBitSequence = "";
+    generateCharodePairFromTree(rootTree, charCodes, currentBitSequence);
+    cout<<"Total "<<charCodes.size()<<" charCodes generated"<<endl;
+
+    // Read '-' to ensure that binary serialisation instructions where correct
     char next;
-    cout<<endl<<(char)fin.get()<<endl;
-    unsigned int data = 0;
-    if(readNextUnsignedInt(data, fin)) cout<<"Total Bytes = "<<data<<endl;
-    cout<<endl<<(char)fin.get()<<endl;
+    next = (char)fin.get();
+    if(next != '-') {
+      cout<<"FILE CORRUPTED: Could not confirm the end of tree!"<<endl;
+      return 1;
+    }
+
+    // Get number of bytes to expand
+    unsigned int bytesToExpand = 0;
+    if(readNextUnsignedInt(bytesToExpand, fin)) {
+      cout<<"Total Bytes = "<<bytesToExpand<<endl;
+    } else {
+      cout<<"FILE CORRUPTED: Could not get length of file!"<<endl;
+      return 1;
+    }
+
+    // Read '-' to ensure start of compressed data
+    next = 0;
+    next = (char)fin.get();
+    if(next != '-') {
+      cout<<"FILE CORRUPTED: Could not confirm start of compressed data!"<<endl;
+      return 1;
+    }
+
+
+    // expand the remaining file
+    unsigned int expandedBytes = 0;
+    expandedBytes = writeExpandedFileWithCharcodeMapUptoBytes(fin, charCodes, fout, bytesToExpand);
+
+    // Confirm expandedBytes
+    if(expandedBytes != bytesToExpand) {
+      cout<<"ERROR: Expanded only "<<expandedBytes<<" bytes out of expected "<<bytesToExpand<<" bytes!"<<endl;
+      return 1;
+    } else {
+      cout<<"Operation successfull!\n"<<endl;
+    }
+
+
     deleteBinaryTree(rootTree);
 
   }
@@ -213,12 +258,12 @@ Node::Node(char sym) {
   right = NULL;
 
   nodeCount++;
-  cout<<"+ Node: new created. Updated count = "<<nodeCount<<endl;
+  // cout<<"+ Node: new created. Updated count = "<<nodeCount<<endl;
 }
 
 Node::~Node() {
   nodeCount--;
-  cout<<"- Node: deleted. Updated count = "<<nodeCount<<endl;
+  // cout<<"- Node: deleted. Updated count = "<<nodeCount<<endl;
 }
 
 // Deletes all the nodes present in binary tree
@@ -419,6 +464,18 @@ void generateCharBitCodePairFromTree(Node *&root, map<char, string> &bitCodes, s
   // currentBitSequence.pop_back();
 }
 
+void generateCharodePairFromTree(Node *&root, map<string, char> &charCodes, string currentBitSequence) {
+  if(root->left == NULL && root->right == NULL) {
+    // Reached to leaf node
+    charCodes.insert( pair<string, char>(currentBitSequence, root->symbol) );
+
+    return;
+  }
+
+  generateCharodePairFromTree(root->left, charCodes, currentBitSequence + '1');
+  generateCharodePairFromTree(root->right, charCodes, currentBitSequence + '0');
+}
+
 unsigned int writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile) {
   // Setup variables to use in this function
   unsigned int totalCompressedBytes = 0;
@@ -436,7 +493,7 @@ unsigned int writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, s
       return totalCompressedBytes;
     }
     bitSequence = it->second;
-    cout<<"Code for \""<<oneChar<<"\" = "<<bitSequence;
+    // cout<<"Code for \""<<oneChar<<"\" = "<<bitSequence;
 
     // Operate for each bits of whole bitCode sequence
     while (bitSequence.length() > 0) {
@@ -448,15 +505,15 @@ unsigned int writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, s
 
       // If outChar have date of a whole byte
       if(counter == 8) {
-        cout<<"\nByte to write out = ";
-        printBitsOfByte(outChar);
+        // cout<<"\nByte to write out = ";
+        // printBitsOfByte(outChar);
         // write outChar in file and reset counter
         writeNextByte(outChar, targetFile);
         outChar = 0;
         counter = 0;
       }
     }
-    cout<<endl;
+    // cout<<endl;
     // +1 to count of bytes processed
     totalCompressedBytes++;
   }
@@ -468,8 +525,8 @@ unsigned int writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, s
     cout<<"\nLeft bits = "<<counter<<endl;
     outChar = (outChar << (8 - counter));
 
-    cout<<"Byte to write out = ";
-    printBitsOfByte(outChar);
+    // cout<<"Byte to write out = ";
+    // printBitsOfByte(outChar);
 
     // write outChar and reset counter
     writeNextByte(outChar, targetFile);
@@ -485,4 +542,36 @@ void printBitsOfByte(char byte) {
     cout<<bit<<" ";
   }
   cout<<endl;
+}
+
+unsigned int writeExpandedFileWithCharcodeMapUptoBytes(ifstream &sourceFile, map<string, char> &charCodes, ofstream &targetFile, unsigned int bytesToExpand) {
+  unsigned int bytesExpanded = 0;
+  char gotByte = 0;
+  string collectedBitSequence = "";
+
+  // read bit-by-bit
+    // get new byte
+  while(readNextByte(gotByte, sourceFile) && !sourceFile.eof()) {
+    // add each bits to collectedBitSequence one-by-one
+    for(int i=7; i>=0; i--) {
+      bool bit = (gotByte >> i) & 1 ;
+      collectedBitSequence += ( (bit == 1) ? '1' : '0' );
+
+      // Check if whole bitSequence is formed
+      map<string, char>::iterator it = charCodes.find(collectedBitSequence);
+      if(it != charCodes.end()) {
+        // found one symbol
+        writeNextByte(it->second, targetFile);
+        bytesExpanded++;
+
+        // If all work is done, exit
+        if(bytesExpanded == bytesToExpand) return bytesExpanded;
+
+        // reset variables
+        collectedBitSequence = "";
+      }
+
+    }
+  }
+  return bytesExpanded;
 }
