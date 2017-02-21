@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  ofstream fout(outFile, ios::binary);
+  ofstream fout(outFile, ios::binary | ios::trunc);
   if(!fout.good()) {
     cout<<"ERROR: can not open \""<<outFile<<"\" file.."<<endl;
     return 1;
