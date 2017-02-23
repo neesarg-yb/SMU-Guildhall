@@ -78,8 +78,8 @@ unsigned int writeExpandedFileWithCharcodeMapUptoBytes(ifstream &sourceFile, map
 //    ( I'm writing this new function to improve
 //      efficiency of the expand operation. )
 unsigned int writeExpandedFileWithTreeUptoBytes(ifstream &sourceFile, Node *&root, ofstream &targetFile, unsigned int bytesToExpand);
-// To keep track of all created nodes
 
+// To keep track of all created nodes
 static int nodeCount = 0;
 
 
@@ -614,11 +614,8 @@ unsigned int writeExpandedFileWithTreeUptoBytes(ifstream &sourceFile, Node *&roo
       // Go to left or right of the current node (according to the bit we got)
       if(bit == 1) {
         currentNode = currentNode->left;  // left
-      } else if (bit == 0) {
-        currentNode = currentNode->right; // right
       } else {
-        cout<<"ERROR: bit isn't 0 or 1!"<<endl;
-        return bytesExpanded;
+        currentNode = currentNode->right; // right
       }
 
       // If this node is leaf node, write its symbol in file
