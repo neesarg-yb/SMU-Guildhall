@@ -62,15 +62,24 @@ void createBinaryTree(Node *&root, vector< pair<Node*, int> > &leaves);
 void deleteBinaryTree(Node *root);
 // compare & return true of i<j; This function is used to sort vector
 bool compareLeaves(const pair<Node*, int>&i, const pair<Node*, int>&j);
+
 //  build map of (character, bitSequence) from binary tree
 void generateCharBitCodePairFromTree(Node *&root, map<char, string> &bitCodes, string currentBitSequence);
 // compress file, & return number of bytes the function compressed
 unsigned int writeCompressedFileWithBitcodeMap(ifstream &sourceFile, map<char, string> &bitCodes, ofstream &targetFile);
+
 // build map of (bitSequence, character); used it in expand operation
 void generateCharodePairFromTree(Node *&root, map<string, char> &charCodes, string currentBitSequence);
 // expands file, & return number of bytes written
+// This method was inefficient, so later decided to not use it
+// And used the next written function "writeExpandedFileWithTreeUptoBytes()", instead.
 unsigned int writeExpandedFileWithCharcodeMapUptoBytes(ifstream &sourceFile, map<string, char> &charCodes, ofstream &targetFile, unsigned int bytesToExpand);
+// expands file, & return number of bytes written
+//    ( I'm writing this new function to improve
+//      efficiency of the expand operation. )
+unsigned int writeExpandedFileWithTreeUptoBytes(ifstream &sourceFile, Node *&root, ofstream &targetFile, unsigned int bytesToExpand);
 // To keep track of all created nodes
+
 static int nodeCount = 0;
 
 
@@ -219,13 +228,7 @@ int main(int argc, char* argv[]) {
     Node *rootTree;
     readBinaryTree(rootTree, fin);
     cout<<"\nTree created!"<<endl;
-    // printBinaryTree(rootTree, 0);
 
-    // generate charCodes, to use in expansion process
-    map<string, char> charCodes;
-    string currentBitSequence = "";
-    generateCharodePairFromTree(rootTree, charCodes, currentBitSequence);
-    cout<<"Total "<<charCodes.size()<<" charCodes generated"<<endl;
 
     // Read '-' to ensure that binary serialisation instructions where correct
     char next;
@@ -252,7 +255,13 @@ int main(int argc, char* argv[]) {
 
     // expand the remaining file
     unsigned int expandedBytes = 0;
-    expandedBytes = writeExpandedFileWithCharcodeMapUptoBytes(fin, charCodes, fout, bytesToExpand);
+    // This is the 2nd method, where I directly use tree to generate codeSequence
+    // Previously I was using a map, to find the sequence. Which was inefficient!
+    // This one is much more efficient
+    expandedBytes = writeExpandedFileWithTreeUptoBytes(fin, rootTree, fout, bytesToExpand);
+
+    // This method was inefficient, so developed the new function written above (this one took too long to complete expand operation)
+    //  -> expandedBytes = writeExpandedFileWithCharcodeMapUptoBytes(fin, charCodes, fout, bytesToExpand);
 
     // Confirm expandedBytes
     if(expandedBytes != bytesToExpand) {
@@ -588,5 +597,46 @@ unsigned int writeExpandedFileWithCharcodeMapUptoBytes(ifstream &sourceFile, map
 
     }
   }
+  return bytesExpanded;
+}
+
+unsigned int writeExpandedFileWithTreeUptoBytes(ifstream &sourceFile, Node *&root, ofstream &targetFile, unsigned int bytesToExpand) {
+  Node *currentNode = root;
+  unsigned int bytesExpanded = 0;
+  char gotByte = 0;
+
+  // read bit-by-bit
+  // To do so.. get new byte 1st
+  while(readNextByte(gotByte, sourceFile) && !sourceFile.eof()) {
+    // operate on each bits one-by-one, to find leaf node from tree
+    for(int i=7; i>=0; i--) {
+      bool bit = (gotByte >> i) & 1 ;
+      // Go to left or right of the current node (according to the bit we got)
+      if(bit == 1) {
+        currentNode = currentNode->left;  // left
+      } else if (bit == 0) {
+        currentNode = currentNode->right; // right
+      } else {
+        cout<<"ERROR: bit isn't 0 or 1!"<<endl;
+        return bytesExpanded;
+      }
+
+      // If this node is leaf node, write its symbol in file
+      if(currentNode->left == NULL && currentNode->right == NULL) {
+        // (1) Write that symbol
+        // (2) increase number of bytesExpanded
+        // (3) point currentNode to root, again.
+        writeNextByte(currentNode->symbol, targetFile);
+        bytesExpanded ++;
+        currentNode = root;
+
+        // If all bytesExpanded, return
+        if(bytesExpanded == bytesToExpand) {
+          return bytesExpanded;
+        }
+      }
+    }
+  }
+
   return bytesExpanded;
 }
